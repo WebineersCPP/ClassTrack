@@ -24,6 +24,13 @@ namespace ClassTrack.Controllers.Api
             return Ok("Testing webAPI method");
         }
 
+        /* Another test method to satisfy Assignment 3 for Paul Chiou */
+        [HttpGet("api/test2")]
+        public IActionResult Test2()
+        {
+            return Ok("Another test method to satisfy Assignment 3 for Paul Chiou...  I think I'm getting a hang of this! :)");
+        }
+
         [HttpGet("api/courses")]
         public IActionResult Get()
         {
