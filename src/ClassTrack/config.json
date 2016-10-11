@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "ClassTrackContextConnection": "Server=(localdb)\\MSSQLLocalDb;Database=ClassTrackDb;Trusted_Connection=true;MultipleActiveResultSets=true;"
+  }
+}
