@@ -31,14 +31,6 @@ namespace ClassTrack.Controllers.Api
             return Ok("Another test method to satisfy Assignment 3 for Paul Chiou...  I think I'm getting a hang of this! :)");
         }
 
-        //Andrea Schmidt Assignment 3 part 3
-        [HttpGet("api/test3")]
-        public IActionResult Test3()
-        {
-            return Ok("Test method 3 for Andrea Schmidt");
-        }
-
-
         [HttpGet("api/courses")]
         public IActionResult Get()
         {
