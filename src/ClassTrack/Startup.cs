@@ -8,23 +8,46 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ClassTrack.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace ClassTrack
 {
     public class Startup
     {
+        private IHostingEnvironment _env;
+        private IConfigurationRoot _config;
+
+        public Startup(IHostingEnvironment env)
+        {
+            _env = env;
+
+            // definining our config.json as our configuration file
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(_env.ContentRootPath)
+                .AddJsonFile("config.json")
+                .AddEnvironmentVariables();
+
+            _config = builder.Build();
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddSingleton(_config);
+
+            services.AddDbContext<ClassTrackContext>();
+
+            services.AddTransient<ClassTrackContextSeedData>();  
 
             // registering our repository, so it can be injected into the classes that need it
             services.AddScoped<ICourseRepository, CourseRepository>();
+
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ClassTrackContextSeedData seeder, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole();
 
@@ -41,6 +64,8 @@ namespace ClassTrack
                     defaults: new { controller = "App", action = "Index" }
                 );
             });
+
+            seeder.EnsureSeedData().Wait();     // asynchronously seed initial data to context
         }
     }
 }
