@@ -56,6 +56,8 @@ namespace ClassTrack
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
+
             app.UseMvc(config =>
             {
                 config.MapRoute(
