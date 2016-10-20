@@ -14,6 +14,7 @@ using TheWorld.ViewModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using ClassTrack.Services;
 
 namespace ClassTrack
 {
@@ -46,6 +47,8 @@ namespace ClassTrack
             services.AddTransient<ClassTrackContextSeedData>();  
             
             services.AddScoped<IClassTrackRepository, ClassTrackRepository>();
+
+            services.AddTransient<GeoCoordsService>();
 
             services.AddIdentity<ClassTrackUser, IdentityRole>(config =>
             {

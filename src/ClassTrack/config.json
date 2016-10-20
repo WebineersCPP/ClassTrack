@@ -1,5 +1,12 @@
 {
   "ConnectionStrings": {
-    "ClassTrackContextConnection": "Server=(localdb)\\MSSQLLocalDb;Database=ClassTrackDb;Trusted_Connection=true;MultipleActiveResultSets=true;"
+    "ClassTrackContextConnection": "Server=(localdb)\\MSSQLLocalDb;Database=ClassTrackDb;Trusted_Connection=true;MultipleActiveResultSets=true;",
+    "Keys": {
+      // Don't put keys in source control, like done below. Or in 'Properties' of project. If you are going to
+      // check in often code that changes, you wouldn't want to put it directly in code until is live.
+      // You could set environmental variables in windows Machine instead
+      // Var name: Keys__BingKey, var value: below
+      "BingKey": "qvSp2qcX1fMq3mcgYLoy~I-TgM0g96KOjr07gCwKi8g~AsPATaeXgynHNybCSmVk7CkvxjtwjuV5436G1OaeTCyE4E7nyNOQnf31fnm8mCji"
+    }
   }
 }
