@@ -1,5 +1,6 @@
 ﻿namespace ClassTrack.Services
 {
+    // This object created to store data obtained using our GeoCoordsService.cs object
     public class GeoCoordsResult
     {
         public bool Success { get; set; }

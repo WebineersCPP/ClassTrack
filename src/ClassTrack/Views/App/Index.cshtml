@@ -1,14 +1,35 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
+<div class="container">
 
+    <h1>Index</h1>
+    <p>This is going to be the welcome page for users (whether logged in or not)</p>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <!--<button class="btn btn-sm btn-success">Go to Home</button>-->
+        <a asp-controller="App" asp-action="Home">Go to Home</a>
+    }
+    else
+    {
+        <!--<button asp-controller="App" asp-action="Home" class="btn btn-sm btn-success">Log in</button>-->
+        <a asp-controller="Auth" asp-action="Login">Login</a>
+    }
+
+</div>
+
+
+
+
+
+<br /><br /><br />
 <h1>Index view</h1>
 <p>View for App Controller</p>
 <button class="btn btn-lg btn-success">A button from Bootstrap</button>
 
 <h3>"Visit localhost:port/api/curriculum-sheet" for a list of your curriculum sheets </h3>
 
-<div class="container">
+<div>
     <h2>Image</h2>
     <img src="thumbs_up.jpg" class="img-responsive" alt="Thumbs up" width="304" height="236">
 </div>

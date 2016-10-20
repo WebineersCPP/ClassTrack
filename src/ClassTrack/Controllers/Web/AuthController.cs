@@ -23,7 +23,7 @@ namespace ClassTrack.Controllers.Web
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "App");
+                return RedirectToAction("Home", "App");
             }
             return View();
         }
@@ -38,7 +38,7 @@ namespace ClassTrack.Controllers.Web
                                                                             true, false);
                 if (signInResult.Succeeded)
                 {
-                    return RedirectToAction("Index", "App");
+                    return RedirectToAction("Home", "App");
                 }
                 else
                 {
@@ -56,7 +56,7 @@ namespace ClassTrack.Controllers.Web
                 await _signInManager.SignOutAsync();
             }
 
-            return RedirectToAction("Login", "Auth");
+            return RedirectToAction("Index", "App");
         }
     }
 }

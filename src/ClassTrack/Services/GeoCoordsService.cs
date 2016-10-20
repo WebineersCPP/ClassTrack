@@ -13,25 +13,39 @@ namespace ClassTrack.Services
 {
     public class GeoCoordsService
     {
+        // This private IConfigRoot variable uses config.json to access its properties
+        // Why do we include this? Because in config.json we are storing a BingKey 
+        // (which is used to access our Bing app and use its api)
+        // Depending if you need extra config keys, you may or may not need to include this
         private IConfigurationRoot _config;
-        private ILogger<GeoCoordsService> _logger;
 
-        public GeoCoordsService(ILogger<GeoCoordsService> logger, IConfigurationRoot config)
+        public GeoCoordsService(IConfigurationRoot config)
         {
-            _logger = logger;
+            // Why can we inject this IConfigurationRoot as an input param to this constructor?
+            // Because we have specified it in Startup.cs (this is one of the first classes called when app starts)
+            // Check ConfigureServices() and services.AddSingleton(_config);
+            // added as a singleton, now it can be injected in constructors to be used within that class
             _config = config;
         }
 
         public async Task<GeoCoordsResult> GetCoordsAsync(string name)
         {
-            // Using BING API: https://www.microsoft.com/maps/create-a-bing-maps-key.aspx
+            // Now, this is a method whose goal is to receive an input string location
+            // and output an object with its Latitude and Longitude properties filled out using the Bing API
+            // BING API: https://www.microsoft.com/maps/create-a-bing-maps-key.aspx
 
+            // The following code just makes sure to retrieve the appropriate data
+            // Research how you can use other apis or libraries to obtain your data
+
+            // Initializing a Services/GeoCoordsResult.cs object
+            // This is just to store data nicely, you can create your own objects
             var result = new GeoCoordsResult()
             {
                 Success = false,
                 Message = "Failed to get coordinates"
             };
 
+            // Here we are using our IConfigurationRoot to access our respective key
             var apiKey = _config["Keys:BingKey"];
             var encodedName = WebUtility.UrlEncode(name);
             var url = $"http://dev.virtualearth.net/REST/v1/Locations?q={encodedName}&key={apiKey}";

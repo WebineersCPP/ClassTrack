@@ -10,8 +10,13 @@ namespace ClassTrack.Controllers.Web
 {
     public class AppController : Controller
     {
-        [Authorize]
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public IActionResult Home()
         {
             return View();
         }

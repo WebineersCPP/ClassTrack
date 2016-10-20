@@ -10,19 +10,22 @@ namespace ClassTrack.Controllers.Api
 {
     public class DemoController : Controller
     {
+        // Here we are maintaining our private variable, which will be initialized in contructor
         private GeoCoordsService _coordsService;
 
         public DemoController(GeoCoordsService coordsService)
         {
             // we are injecting this service in this controller so it can use it
-            // recall that this service is injectable because we specified it in Startup.cs under ConfigureServices()
+            // recall that this service is injectable because we specified it in Startup.cs under ConfigureServices() line 51 services.AddTransient<GeoCoordsService>();
             _coordsService = coordsService;
         }
 
         [HttpGet("api/demo")]
+        // for some reason this returns a 401 error. :(
+        // but either way, say method from service works, it would return our expected result
         public async Task<IActionResult> Get()
         {
-            // Use a method from the service --> Lookup the Geocodes
+            // Use the method GetCoordAsync from the service GeoCoordsService.cs
             var result = await _coordsService.GetCoordsAsync("Atlanta, GA");
             if (!result.Success)
             {
