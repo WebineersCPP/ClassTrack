@@ -27,7 +27,7 @@ namespace ClassTrack.Migrations
 
                     b.Property<string>("Subplan");
 
-                    b.Property<DateTime>("Year");
+                    b.Property<int>("Year");
 
                     b.HasKey("Id");
 

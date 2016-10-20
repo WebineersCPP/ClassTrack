@@ -8,7 +8,7 @@ using ClassTrack.Models;
 namespace ClassTrack.Migrations
 {
     [DbContext(typeof(ClassTrackContext))]
-    [Migration("20161020033013_InitialDatabase")]
+    [Migration("20161020041920_InitialDatabase")]
     partial class InitialDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,7 +28,7 @@ namespace ClassTrack.Migrations
 
                     b.Property<string>("Subplan");
 
-                    b.Property<DateTime>("Year");
+                    b.Property<int>("Year");
 
                     b.HasKey("Id");
 

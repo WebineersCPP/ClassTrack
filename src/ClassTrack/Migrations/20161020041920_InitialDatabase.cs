@@ -18,7 +18,7 @@ namespace ClassTrack.Migrations
                     Major = table.Column<string>(nullable: true),
                     MinUnitsReq = table.Column<int>(nullable: false),
                     Subplan = table.Column<string>(nullable: true),
-                    Year = table.Column<DateTime>(nullable: false)
+                    Year = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -8,9 +8,11 @@ namespace ClassTrack.Models
 {
     public interface IClassTrackRepository
     {
-        IEnumerable<CourseItem> GetAllCourses();
+        IEnumerable<CurriculumSheet> GetAllCurriculumSheets();
 
-        void AddCourse(CourseItem course);
+        CurriculumSheet GetCurriculumSheet(string major, int year);
+
+        void AddCurriculumSheet(CurriculumSheet curriculumSheet);
 
         Task<bool> SaveChangesAsync();
     }

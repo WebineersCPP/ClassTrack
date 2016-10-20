@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,14 +16,25 @@ namespace ClassTrack.Models
             _context = context;
         }
 
-        public void AddCourse(CourseItem course)
+        public IEnumerable<CurriculumSheet> GetAllCurriculumSheets()
         {
-            _context.Courses.Add(course);
+            return _context.CurriculumSheets.ToList();
         }
 
-        public IEnumerable<CourseItem> GetAllCourses()
+        public CurriculumSheet GetCurriculumSheet(string major, int year)
         {
-            return _context.Courses.ToList();
+            return _context.CurriculumSheets
+                           .Include(cs => cs.Modules)
+                           .Where(cs => cs.Major == major && cs.Year == year)
+                           .FirstOrDefault();
+        }
+
+        public void AddCurriculumSheet(CurriculumSheet sheet)
+        {
+            if (sheet != null)
+            {
+                _context.CurriculumSheets.Add(sheet);
+            }
         }
 
         public async Task<bool> SaveChangesAsync()
