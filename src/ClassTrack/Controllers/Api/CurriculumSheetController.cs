@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ClassTrack.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using TheWorld.ViewModels;
 
 namespace ClassTrack.Controllers.Api
 {
+    [Authorize]
     [Route("/api/curriculum-sheet")]
     public class CurriculumSheetController : Controller
     {
@@ -23,7 +25,7 @@ namespace ClassTrack.Controllers.Api
         {
             try
             {
-                var results = _repository.GetAllCurriculumSheets();
+                var results = _repository.GetAllCurriculumSheets(this.User.Identity.Name);
                 return Ok(results);
             }
             catch (Exception ex)
@@ -37,7 +39,7 @@ namespace ClassTrack.Controllers.Api
         {
             try
             {
-                var result = _repository.GetCurriculumSheet(sheet.Year, sheet.Major, sheet.Subplan);
+                var result = _repository.GetCurriculumSheet(this.User.Identity.Name, sheet.Year, sheet.Major, sheet.Subplan);
                 return Ok(result);
             }
             catch (Exception ex)

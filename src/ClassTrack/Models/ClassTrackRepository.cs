@@ -18,18 +18,19 @@ namespace ClassTrack.Models
         }
 
 
-        public IEnumerable<CurriculumSheet> GetAllCurriculumSheets()
+        public IEnumerable<CurriculumSheet> GetAllCurriculumSheets(string username)
         {
             return _context.CurriculumSheets
+                           .Where(cs => cs.UserName == username)
                            .Include(cs => cs.Modules)
                            .ThenInclude(m => m.Items)
                            .ToList();
         }
 
-        public CurriculumSheet GetCurriculumSheet(int year, string major, string subplan)
+        public CurriculumSheet GetCurriculumSheet(string username, int year, string major, string subplan)
         {
             return _context.CurriculumSheets
-                           .Where(cs => cs.Major == major && cs.Subplan == subplan && cs.Year == year)
+                           .Where(cs => cs.UserName == username && cs.Major == major && cs.Subplan == subplan && cs.Year == year)
                            .Include(cs => cs.Modules)
                            .ThenInclude(m => m.Items)
                            .FirstOrDefault();

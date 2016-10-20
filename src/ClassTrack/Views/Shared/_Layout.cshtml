@@ -9,6 +9,15 @@
 </head>
 <body>
 
+    <div id="sidebar">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <span id="username">@User.Identity.Name</span>
+        }
+        <ul class="nav">
+            <li><a asp-controller="Auth" asp-action="Logout">Logout</a></li>
+        </ul>
+    </div>
 
     <div id="wrapper">
         <div id="main" class="container-fluid">

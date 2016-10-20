@@ -9,9 +9,9 @@ namespace ClassTrack.Models
 {
     public interface IClassTrackRepository
     {
-        IEnumerable<CurriculumSheet> GetAllCurriculumSheets();
+        IEnumerable<CurriculumSheet> GetAllCurriculumSheets(string username);
 
-        CurriculumSheet GetCurriculumSheet(int year, string major, string subplan);
+        CurriculumSheet GetCurriculumSheet(string username, int year, string major, string subplan);
 
         void AddCurriculumSheet(CurriculumSheet curriculumSheet);
 
