@@ -41,7 +41,7 @@ namespace ClassTrack
             services.AddTransient<ClassTrackContextSeedData>();  
 
             // registering our repository, so it can be injected into the classes that need it
-            services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<IClassTrackRepository, ClassTrackRepository>();
 
             services.AddMvc();
         }

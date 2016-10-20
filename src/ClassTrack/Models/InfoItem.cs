@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace ClassTrack.Models
 {
-    public interface ICourseRepository
+    public class InfoItem : Item
     {
-        IEnumerable<Course> GetAllCourses();
-
-        void AddCourse(Course course);
-
+        public override int Id { get; set; }
+        public string Text { get; set; }
     }
 }

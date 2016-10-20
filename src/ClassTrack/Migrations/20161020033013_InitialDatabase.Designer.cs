@@ -8,9 +8,10 @@ using ClassTrack.Models;
 namespace ClassTrack.Migrations
 {
     [DbContext(typeof(ClassTrackContext))]
-    partial class ClassTrackContextModelSnapshot : ModelSnapshot
+    [Migration("20161020033013_InitialDatabase")]
+    partial class InitialDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")

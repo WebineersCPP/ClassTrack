@@ -16,8 +16,11 @@ namespace ClassTrack.Models
         {
             _config = config;
         }
-
-        public DbSet<Course> Courses { get; set; }
+        
+        public DbSet<CurriculumSheet> CurriculumSheets { get; set; }
+        public DbSet<Module> Modules { get; set; }
+        public DbSet<CourseItem> Courses { get; set; }
+        public DbSet<InfoItem> InfoItems { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

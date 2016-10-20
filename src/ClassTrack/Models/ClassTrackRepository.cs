@@ -6,23 +6,28 @@ using System.Threading.Tasks;
 
 namespace ClassTrack.Models
 {
-    public class CourseRepository : ICourseRepository
+    public class ClassTrackRepository : IClassTrackRepository
     {
         private ClassTrackContext _context;
 
-        public CourseRepository(ClassTrackContext context)
+        public ClassTrackRepository(ClassTrackContext context)
         {
             _context = context;
         }
 
-        public void AddCourse(Course course)
+        public void AddCourse(CourseItem course)
         {
             _context.Courses.Add(course);
         }
 
-        public IEnumerable<Course> GetAllCourses()
+        public IEnumerable<CourseItem> GetAllCourses()
         {
             return _context.Courses.ToList();
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return (await _context.SaveChangesAsync()) > 0;
         }
     }
 }

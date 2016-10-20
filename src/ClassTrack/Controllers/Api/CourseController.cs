@@ -10,9 +10,9 @@ namespace ClassTrack.Controllers.Api
 {
     public class CourseController : Controller
     {
-        private ICourseRepository _repository;
+        private IClassTrackRepository _repository;
 
-        public CourseController(ICourseRepository repository)
+        public CourseController(IClassTrackRepository repository)
         {
             _repository = repository;
         }
@@ -65,22 +65,27 @@ namespace ClassTrack.Controllers.Api
         }
 
         [HttpPost("api/courses")]
-        public IActionResult Post([FromBody]Course course)
+        public async Task<IActionResult> Post([FromBody]CourseItem course)
         {
             try
             {
                 // Save to list. In future, we'd save to database
                 _repository.AddCourse(course);
 
-                // Created returns a 201 created page
-                return Created("api/courses/", course);
+                if (await _repository.SaveChangesAsync())
+                {
+                    return Created("api/courses/", course);
+                }
+                
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest("Unable to add course");
             }
+            return BadRequest("Unable to add course");
         }
 
-        
+
     }
 }

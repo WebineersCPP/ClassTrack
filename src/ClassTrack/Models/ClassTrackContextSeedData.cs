@@ -19,17 +19,21 @@ namespace ClassTrack.Models
         {
             if (!_context.Courses.Any())
             {
-                var cs130 = new Course()
+                var cs130 = new CourseItem()
                 {
-                    Name = "Discrete Structures",
-                    IsComplete = false
+                    Title = "Discrete Structures",
+                    Number = "CS130",
+                    Units = 4,
+                    HighlightColor = (short)Enums.Enums.HighlightColor.None
                 };
                 _context.Courses.Add(cs130);
 
-                var cs140 = new Course()
+                var cs140 = new CourseItem()
                 {
-                    Name = "Introduction to Computer Science",
-                    IsComplete = false
+                    Title = "Introduction to Computer Science",
+                    Number = "CS140",
+                    Units = 4,
+                    HighlightColor = (short)Enums.Enums.HighlightColor.None
                 };
                 _context.Courses.Add(cs140);
             }
