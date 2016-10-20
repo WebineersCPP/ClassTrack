@@ -8,9 +8,10 @@ using ClassTrack.Models;
 namespace ClassTrack.Migrations
 {
     [DbContext(typeof(ClassTrackContext))]
-    partial class ClassTrackContextModelSnapshot : ModelSnapshot
+    [Migration("20161020094222_AddingIdentity")]
+    partial class AddingIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -77,8 +78,6 @@ namespace ClassTrack.Migrations
                     b.Property<int>("MinUnitsReq");
 
                     b.Property<string>("Subplan");
-
-                    b.Property<string>("UserName");
 
                     b.Property<int>("Year");
 

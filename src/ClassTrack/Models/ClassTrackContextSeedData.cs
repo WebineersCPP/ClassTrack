@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,18 +10,32 @@ namespace ClassTrack.Models
     public class ClassTrackContextSeedData
     {
         private ClassTrackContext _context;
+        private UserManager<ClassTrackUser> _userManager;
 
-        public ClassTrackContextSeedData(ClassTrackContext context)
+        public ClassTrackContextSeedData(ClassTrackContext context, UserManager<ClassTrackUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task EnsureSeedData()
         {
+            if (await _userManager.FindByEmailAsync("test@email.com") == null)
+            {
+                var user = new ClassTrackUser()
+                {
+                    UserName = "username",
+                    Email = "test@email.com"
+                };
+
+                await _userManager.CreateAsync(user, "P@ssw0rd");
+            }
+
             if (!_context.CurriculumSheets.Any())
             {
                 CurriculumSheet cs = new CurriculumSheet()
                 {
+                    UserName = "username",
                     Year = 2012,
                     Major = "Computer Science",
                     MinUnitsReq = 180,

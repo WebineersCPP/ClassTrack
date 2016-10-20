@@ -9,6 +9,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ClassTrack.Models;
 using Microsoft.Extensions.Configuration;
+using AutoMapper;
+using TheWorld.ViewModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ClassTrack
 {
@@ -39,11 +44,24 @@ namespace ClassTrack
             services.AddDbContext<ClassTrackContext>();
 
             services.AddTransient<ClassTrackContextSeedData>();  
-
-            // registering our repository, so it can be injected into the classes that need it
+            
             services.AddScoped<IClassTrackRepository, ClassTrackRepository>();
 
-            services.AddMvc();
+            services.AddIdentity<ClassTrackUser, IdentityRole>(config =>
+            {
+                config.User.RequireUniqueEmail = true;
+                config.Password.RequiredLength = 8;
+                config.Cookies.ApplicationCookie.LoginPath = "/Auth/Login";     // Forward user to url if not authorized                
+            })
+            .AddEntityFrameworkStores<ClassTrackContext>();
+
+            services.AddMvc(config =>
+            {
+                if (_env.IsEnvironment("Production"))   // or _env.IsProduction(). This uses default. If you want to set your own prod env, use: ASPNETCORE_ENVIRONMENT=Production
+                {
+                    config.Filters.Add(new RequireHttpsAttribute());
+                }
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,12 +76,19 @@ namespace ClassTrack
 
             app.UseStaticFiles();
 
+            app.UseIdentity();
+
+            Mapper.Initialize(config =>
+            {
+                config.CreateMap<CurriculumSheetViewModel, CurriculumSheet>().ReverseMap();
+            });
+
             app.UseMvc(config =>
             {
                 config.MapRoute(
                     name: "Default",
                     template: "{controller}/{action}/{id?}",
-                    defaults: new { controller = "App", action = "Index" }
+                    defaults: new { controller = "Auth", action = "Login" }
                 );
             });
 

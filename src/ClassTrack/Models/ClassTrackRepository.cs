@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheWorld.ViewModels;
 
 namespace ClassTrack.Models
 {
@@ -16,16 +17,21 @@ namespace ClassTrack.Models
             _context = context;
         }
 
-        public IEnumerable<CurriculumSheet> GetAllCurriculumSheets()
-        {
-            return _context.CurriculumSheets.ToList();
-        }
 
-        public CurriculumSheet GetCurriculumSheet(string major, int year)
+        public IEnumerable<CurriculumSheet> GetAllCurriculumSheets()
         {
             return _context.CurriculumSheets
                            .Include(cs => cs.Modules)
-                           .Where(cs => cs.Major == major && cs.Year == year)
+                           .ThenInclude(m => m.Items)
+                           .ToList();
+        }
+
+        public CurriculumSheet GetCurriculumSheet(int year, string major, string subplan)
+        {
+            return _context.CurriculumSheets
+                           .Where(cs => cs.Major == major && cs.Subplan == subplan && cs.Year == year)
+                           .Include(cs => cs.Modules)
+                           .ThenInclude(m => m.Items)
                            .FirstOrDefault();
         }
 
