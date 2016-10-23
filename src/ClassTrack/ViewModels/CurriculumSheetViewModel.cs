@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TheWorld.ViewModels
+namespace ClassTrack.ViewModels
 {
     public class CurriculumSheetViewModel
     {

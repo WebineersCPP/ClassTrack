@@ -10,11 +10,11 @@ using Microsoft.Extensions.Logging;
 using ClassTrack.Models;
 using Microsoft.Extensions.Configuration;
 using AutoMapper;
-using TheWorld.ViewModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using ClassTrack.Services;
+using ClassTrack.ViewModels;
 
 namespace ClassTrack
 {

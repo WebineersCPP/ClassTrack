@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using ClassTrack.Models;
+using ClassTrack.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TheWorld.ViewModels;
 
 namespace ClassTrack.Controllers.Api
 {
@@ -30,7 +30,7 @@ namespace ClassTrack.Controllers.Api
             }
             catch (Exception ex)
             {
-                return BadRequest("Error while retrieving all curriculum sheets");
+                return BadRequest($"Error while retrieving all curriculum sheets for {this.User.Identity.Name}");
             }
         }
 
@@ -44,7 +44,7 @@ namespace ClassTrack.Controllers.Api
             }
             catch (Exception ex)
             {
-                return BadRequest("Error while retrieving curriculum sheet");
+                return BadRequest($"Error while retrieving curriculum sheet for {this.User.Identity.Name}");
             }
         }
 

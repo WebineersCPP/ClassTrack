@@ -51,17 +51,29 @@ namespace ClassTrack.Models
                                            new CourseItem() { Title = "Computer Logic", Number = "CS210", Units = 4 },
                                        }
                                     },
-                        new Module() { Title = "Elective Core Courses" },
-                        new Module() { Title = "At least 20 units from:",
+                        new Module() { Title = "Elective Core Courses",
+                                       Units = 23
+                                    },
+                        new Module() { IsSubmodule = true,
+                                       Title = "At least 20 units from:",
                                        Items = new List<Item>() {
                                            new CourseItem() { Title = "Programming Graphical User Interfaces", Number = "CS245", Units = 4 },
                                            new CourseItem() { Title = "Unix and Scripting", Number = "CS260", Units = 4 }
                                        }
                                     },
-                        new Module() { Title = "No more than 4 units from:",
+                        new Module() { IsSubmodule = true,
+                                       Title = "No more than 4 units from:",
                                        Items = new List<Item>() {
                                            new CourseItem() { Title = "Special Study for Lower Division Students", Number = "CS245", Units = 2 },
                                            new CourseItem() { Title = "Senior Project", Number = "CS461", Units = 2 }
+                                       }
+                                    },
+                        new Module() { Title = "Required Support Courses",
+                                       Units = 43,
+                                       Description = "The following major support courses should be used to satisfy the indicated GE requirements. If these courses are not used to satisfy GE, the total units to degree may be more than 180 units.",
+                                       Items = new List<Item>() {
+                                           new CourseItem() { Title = "Life Science", Number = "BIO110/11L", Units = 3 },
+                                           new CourseItem() { Title = "Computers and Society", Number = "CS375", Units = 4 }
                                        }
                                     }
                     }
