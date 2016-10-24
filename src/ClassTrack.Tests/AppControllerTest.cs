@@ -40,7 +40,7 @@ namespace ClassTrack.Tests
         [Fact]
         public void SubtractFailingTest()   // Sample test method
         {
-            Assert.Equal(1, Subtract(2, 2));
+            Assert.NotEqual(0, Subtract(2, 2));
         }
 
         int Subtract(int x, int y)
