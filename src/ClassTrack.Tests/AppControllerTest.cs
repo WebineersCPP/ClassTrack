@@ -4,7 +4,6 @@ using ClassTrack.Controllers.Web;
 using ClassTrack.Models;
 using ClassTrack.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Moq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Principal;
@@ -29,6 +28,24 @@ namespace ClassTrack.Tests
         int Add(int x, int y)
         {
             return x + y;
+        }
+
+        //Assignment 6: creating Tests (using xUnit for C#) - Ian Stodart
+        [Fact]
+        public void SubtractPassingTest()   // Sample test method
+        {
+            Assert.Equal(0, Subtract(2, 2));
+        }
+
+        [Fact]
+        public void SubtractFailingTest()   // Sample test method
+        {
+            Assert.Equal(1, Subtract(2, 2));
+        }
+
+        int Subtract(int x, int y)
+        {
+            return x - y;
         }
 
         [Fact]
