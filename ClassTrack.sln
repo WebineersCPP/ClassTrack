@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ClassTrack", "src\ClassTrack\ClassTrack.xproj", "{2F507C6E-C2D0-4BB7-A951-E2D694AD192A}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ClassTrack.Tests", "src\ClassTrack.Tests\ClassTrack.Tests.xproj", "{28D6130F-A219-4095-8BE6-DD04C7BDFADD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,11 +24,16 @@ Global
 		{2F507C6E-C2D0-4BB7-A951-E2D694AD192A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F507C6E-C2D0-4BB7-A951-E2D694AD192A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F507C6E-C2D0-4BB7-A951-E2D694AD192A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28D6130F-A219-4095-8BE6-DD04C7BDFADD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28D6130F-A219-4095-8BE6-DD04C7BDFADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28D6130F-A219-4095-8BE6-DD04C7BDFADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28D6130F-A219-4095-8BE6-DD04C7BDFADD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{2F507C6E-C2D0-4BB7-A951-E2D694AD192A} = {B6B0A32E-906B-4541-B8FD-D82D22F25258}
+		{28D6130F-A219-4095-8BE6-DD04C7BDFADD} = {B6B0A32E-906B-4541-B8FD-D82D22F25258}
 	EndGlobalSection
 EndGlobal
