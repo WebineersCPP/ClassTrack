@@ -48,6 +48,24 @@ namespace ClassTrack.Tests
             return x - y;
         }
 
+        //Assignment 6: tests - Andrea Schmidt
+        [Fact]
+        public void MultPassingTest() //Sample test
+        {
+            Assert.Equal(21, Multiply(7, 3));
+        }
+
+        [Fact]
+        public void MultFailingTest() //Sample test
+        {
+            Assert.NotEqual(21, Multiply(7, 3));
+        }
+
+        int Multiply(int x, int y)
+        {
+            return x * y;
+        }
+        //
         [Fact]
         public void Home_Controller_Redirects()
         {
