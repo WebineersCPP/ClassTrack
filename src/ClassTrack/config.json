@@ -1,5 +1,6 @@
 {
   "ConnectionStrings": {
+    //"ClassTrackContextConnection": "Server=localhost\\SQLEXPRESS;Database=master;Trusted_Connection=True;MultipleActiveResultSets=true;",
     "ClassTrackContextConnection": "Server=(localdb)\\MSSQLLocalDb;Database=ClassTrackDb;Trusted_Connection=true;MultipleActiveResultSets=true;",
     "Keys": {
       // Don't put keys in source control, like done below. Or in 'Properties' of project. If you are going to

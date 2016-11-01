@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using ClassTrack.Models;
 using Microsoft.Extensions.Configuration;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using ClassTrack.Services;
 using ClassTrack.ViewModels;
+using ClassTrack.Repositories;
+using ClassTrack.Models;
 
 namespace ClassTrack
 {
@@ -43,7 +38,6 @@ namespace ClassTrack
             services.AddSingleton(_config);
 
             services.AddDbContext<ClassTrackContext>();
-
             services.AddTransient<ClassTrackContextSeedData>();  
             
             services.AddScoped<IClassTrackRepository, ClassTrackRepository>();

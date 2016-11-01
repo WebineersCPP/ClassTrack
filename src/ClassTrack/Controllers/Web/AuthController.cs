@@ -33,9 +33,7 @@ namespace ClassTrack.Controllers.Web
         {
             if (ModelState.IsValid)
             {
-                var signInResult = await _signInManager.PasswordSignInAsync(vm.Username,
-                                                                            vm.Password,
-                                                                            true, false);
+                var signInResult = await _signInManager.PasswordSignInAsync(vm.Username, vm.Password, true, false);
                 if (signInResult.Succeeded)
                 {
                     return RedirectToAction("Home", "App");
@@ -45,7 +43,6 @@ namespace ClassTrack.Controllers.Web
                     ModelState.AddModelError("", "Username or password incorrect");
                 }
             }
-
             return View();
         }
 

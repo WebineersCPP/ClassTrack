@@ -1,4 +1,5 @@
 ﻿using ClassTrack.Models;
+using ClassTrack.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,11 @@ namespace ClassTrack.Tests
         public IEnumerable<CurriculumSheet> GetAllCurriculumSheets(string username)
         {
             return list;
+        }
+
+        public CurriculumSheet GetCurriculumSheet(int year, string major, string subplan)
+        {
+            throw new NotImplementedException();
         }
 
         public CurriculumSheet GetCurriculumSheet(string username, int year, string major, string subplan)

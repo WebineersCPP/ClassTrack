@@ -1,0 +1,16 @@
+﻿<!-- csView.html -->
+
+<div>
+    <div ng-show="vm.loading"><i class="fa fa-circle-o-notch fa-spin"></i></div>
+
+    <div ng-hide="vm.loading">
+        {{ vm.year }}
+        {{vm.major}}
+        {{vm.subplan}}
+        {{vm.minUnits}}
+        <div ng-repeat="m in vm.modules">
+            {{m.title}}
+        </div>
+    </div>
+
+</div>
