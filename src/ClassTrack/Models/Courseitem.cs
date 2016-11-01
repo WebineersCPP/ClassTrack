@@ -12,5 +12,9 @@ namespace ClassTrack.Models
         public string Number { get; set; }
         public int Units { get; set; }
         public short HighlightColor { get; set; }
+        public ICollection<CourseScheduleItem> CourseScheduleItems { get; set; }
+
+        
+
     }
 }

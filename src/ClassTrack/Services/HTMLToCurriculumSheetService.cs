@@ -6,6 +6,7 @@ using HtmlAgilityPack;
 using System.Net.Http;
 using ClassTrack.Models;
 using System.Net;
+//using System.Web.Http;
 
 namespace ClassTrack.Services
 {
@@ -22,13 +23,32 @@ namespace ClassTrack.Services
         static List<Item> courseList;
         static bool listOpen = false;
 
+        public string catalogLink { get; set; }
+        //public IEnumerable<HtmlNode> loadedNodes { get; set; }
+
+
         public async Task<CurriculumSheet> getCurriculumSheet(string url)
         {
+            catalogLink = url;
+
             // Set up HtmlAgilityPack to fetch html data
             HtmlAgilityPack.HtmlWeb htmlWeb = new HtmlWeb();
-            HtmlDocument html = await new HtmlWeb().LoadFromWebAsync(url);
+            HtmlDocument html;
+
+            try
+            {
+                html = await new HtmlWeb().LoadFromWebAsync(catalogLink);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error loading url");
+            }
+
+
             var root = html.DocumentNode;
             var htmlNodes = root.Descendants();
+
+            //loadedNodes = htmlNodes;
 
             // Search through fetched html nodes for relevant information
             foreach (HtmlNode node in htmlNodes)

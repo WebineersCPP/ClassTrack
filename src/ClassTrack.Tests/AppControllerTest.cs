@@ -4,7 +4,6 @@ using ClassTrack.Controllers.Web;
 using ClassTrack.Models;
 using ClassTrack.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Moq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Principal;
@@ -31,6 +30,42 @@ namespace ClassTrack.Tests
             return x + y;
         }
 
+        //Assignment 6: creating Tests (using xUnit for C#) - Ian Stodart
+        [Fact]
+        public void SubtractPassingTest()   // Sample test method
+        {
+            Assert.Equal(0, Subtract(2, 2));
+        }
+
+        [Fact]
+        public void SubtractFailingTest()   // Sample test method
+        {
+            Assert.NotEqual(0, Subtract(2, 2));
+        }
+
+        int Subtract(int x, int y)
+        {
+            return x - y;
+        }
+
+        //Assignment 6: tests - Andrea Schmidt
+        [Fact]
+        public void MultPassingTest() //Sample test
+        {
+            Assert.Equal(21, Multiply(7, 3));
+        }
+
+        [Fact]
+        public void MultFailingTest() //Sample test
+        {
+            Assert.NotEqual(21, Multiply(7, 3));
+        }
+
+        int Multiply(int x, int y)
+        {
+            return x * y;
+        }
+        //
         [Fact]
         public void Home_Controller_Redirects()
         {
