@@ -13,11 +13,14 @@
 
         $http.get("/api/curriculum-sheet")
             .then(function (response) {
-                // success
-                vm.curriculumSheets = response.data;
+                if (response.data != null) {
+                    vm.curriculumSheets = response.data;
+                }
+                else {
+                    vm.errorMessage = "You don't have any curriculum sheets saved.";
+                }
             }, function (error) {
-                // failure
-                vm.errorMessage = "Unable to retrieve catalog: " + error;
+                vm.errorMessage = "Unable to retrieve catalogs: " + error;
             })
             .finally(function () {
                 vm.loading = false;

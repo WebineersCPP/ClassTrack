@@ -1,17 +1,20 @@
 ﻿@{
     ViewBag.Title = "Home";
 }
+@section Styles {
+    <link rel="stylesheet" href="~/css/home.css" />
+}
 @section Scripts {
     <script src="~/lib/angular/angular.min.js"></script>
     <script src="~/lib/angular-route/angular-route.min.js"></script>
     <script src="~/js/app-home.js"></script>
     <script src="~/js/homeController.js"></script>
+    <script src="~/js/csController.js"></script>
 }
 
-<div class="container" ng-app="app-home">
-    <h1>This is Home</h1>
-    <p>Logged in users are able to be redirected to this home main page</p>
-    <p>Here they will have access to their curriculum sheets</p>
+
+<div ng-app="app-home">
+    <h1>Your Curriculum Sheets</h1>
 
     <div ng-view></div>
 </div>

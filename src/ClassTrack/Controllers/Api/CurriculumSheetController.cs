@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using ClassTrack.Models;
+using ClassTrack.Repositories;
 using ClassTrack.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ClassTrack.Controllers.Api
@@ -20,26 +20,19 @@ namespace ClassTrack.Controllers.Api
             _repository = repository;
         }
 
-        [HttpGet("")]
-        public IActionResult GetAllCurriculumSheets()
+        [HttpGet]
+        public IActionResult GetCurriculumSheet()
         {
-            try
-            {
-                var results = _repository.GetAllCurriculumSheets(this.User.Identity.Name);
-                return Ok(results);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error while retrieving all curriculum sheets for {this.User.Identity.Name}");
-            }
+            var results = _repository.GetAllCurriculumSheets(this.User.Identity.Name);
+            return Ok(results);
         }
 
-        [HttpGet("{sheet.Year}/{sheet.Major}")]
-        public IActionResult GetCurriculumSheet(CurriculumSheetViewModel sheet)
+        [HttpGet("{id}")]
+        public IActionResult GetCurriculumSheet(int id)
         {
             try
             {
-                var result = _repository.GetCurriculumSheet(this.User.Identity.Name, sheet.Year, sheet.Major, sheet.Subplan);
+                var result = _repository.GetCurriculumSheet(this.User.Identity.Name, id);
                 return Ok(result);
             }
             catch (Exception ex)

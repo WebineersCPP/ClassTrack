@@ -9,6 +9,11 @@
                 controllerAs: "vm",
                 templateUrl: "/views/homeView.html"
             });
+            $routeProvider.when("/detail/:id", {
+                controller: "csController",
+                controllerAs: "vm",
+                templateUrl: "/views/csView.html"
+            });
 
             $routeProvider.otherwise({ redirectTo: "/" });
         });
