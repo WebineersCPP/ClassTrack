@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace ClassTrack.Migrations
 {
-    public partial class AddingIdentity : Migration
+    public partial class InitialDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -60,6 +60,30 @@ namespace ClassTrack.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CurriculumSheets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ClassTrackUserId = table.Column<string>(nullable: true),
+                    Major = table.Column<string>(nullable: true),
+                    MinUnitsReq = table.Column<int>(nullable: false),
+                    Subplan = table.Column<string>(nullable: true),
+                    UserName = table.Column<string>(nullable: true),
+                    Year = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CurriculumSheets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CurriculumSheets_AspNetUsers_ClassTrackUserId",
+                        column: x => x.ClassTrackUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -148,15 +172,82 @@ namespace ClassTrack.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.AddColumn<string>(
-                name: "ClassTrackUserId",
-                table: "CurriculumSheets",
-                nullable: true);
+            migrationBuilder.CreateTable(
+                name: "Modules",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CurriculumSheetId = table.Column<int>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    IsSubmodule = table.Column<bool>(nullable: false),
+                    Title = table.Column<string>(nullable: true),
+                    Units = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Modules", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Modules_CurriculumSheets_CurriculumSheetId",
+                        column: x => x.CurriculumSheetId,
+                        principalTable: "CurriculumSheets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_CurriculumSheets_ClassTrackUserId",
-                table: "CurriculumSheets",
-                column: "ClassTrackUserId");
+            migrationBuilder.CreateTable(
+                name: "Items",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    HighlightColor = table.Column<short>(nullable: false),
+                    IsCourse = table.Column<bool>(nullable: false),
+                    ModuleId = table.Column<int>(nullable: true),
+                    Number = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
+                    Units = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Items", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Items_Modules_ModuleId",
+                        column: x => x.ModuleId,
+                        principalTable: "Modules",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CourseScheduleItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ClassNumber = table.Column<int>(nullable: false),
+                    Days = table.Column<string>(nullable: true),
+                    EndTime = table.Column<int>(nullable: false),
+                    Instructor = table.Column<string>(nullable: true),
+                    ItemId = table.Column<int>(nullable: true),
+                    Number = table.Column<string>(nullable: true),
+                    Room = table.Column<string>(nullable: true),
+                    Section = table.Column<int>(nullable: false),
+                    StartTime = table.Column<int>(nullable: false),
+                    Time = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
+                    Units = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CourseScheduleItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CourseScheduleItems_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
@@ -168,6 +259,26 @@ namespace ClassTrack.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CourseScheduleItems_ItemId",
+                table: "CourseScheduleItems",
+                column: "ItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CurriculumSheets_ClassTrackUserId",
+                table: "CurriculumSheets",
+                column: "ClassTrackUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Items_ModuleId",
+                table: "Items",
+                column: "ModuleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Modules_CurriculumSheetId",
+                table: "Modules",
+                column: "CurriculumSheetId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
@@ -198,29 +309,12 @@ namespace ClassTrack.Migrations
                 name: "IX_AspNetUserRoles_UserId",
                 table: "AspNetUserRoles",
                 column: "UserId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_CurriculumSheets_AspNetUsers_ClassTrackUserId",
-                table: "CurriculumSheets",
-                column: "ClassTrackUserId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_CurriculumSheets_AspNetUsers_ClassTrackUserId",
-                table: "CurriculumSheets");
-
-            migrationBuilder.DropIndex(
-                name: "IX_CurriculumSheets_ClassTrackUserId",
-                table: "CurriculumSheets");
-
-            migrationBuilder.DropColumn(
-                name: "ClassTrackUserId",
-                table: "CurriculumSheets");
+            migrationBuilder.DropTable(
+                name: "CourseScheduleItems");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -238,7 +332,16 @@ namespace ClassTrack.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Items");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Modules");
+
+            migrationBuilder.DropTable(
+                name: "CurriculumSheets");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

@@ -4,13 +4,27 @@
     <div ng-show="vm.loading"><i class="fa fa-circle-o-notch fa-spin"></i></div>
 
     <div ng-hide="vm.loading">
-        {{ vm.year }}
-        {{vm.major}}
-        {{vm.subplan}}
-        {{vm.minUnits}}
-        <div ng-repeat="m in vm.modules">
-            {{m.title}}
-        </div>
-    </div>
 
+        <div class="curriculum-sheet-detail">
+            <div ng-bind="vm.major"></div>
+            <div ng-bind="vm.subplan"></div>
+            <div ng-bind="vm.year"></div>
+            <div ng-bind="vm.minUnits"></div>
+
+            <div class="module" ng-repeat="m in vm.modules">
+                <div ng-if="m.isSubmodule">
+                    indent here
+                </div>
+                <div>
+                    <div ng-bind="m.title"></div>
+                    <div class="item" ng-repeat="i in m.items">
+                        <div ng-if="vm.isHighlightable(i)">
+                            {{ i.id }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>

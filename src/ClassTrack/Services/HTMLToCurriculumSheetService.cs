@@ -12,7 +12,7 @@ namespace ClassTrack.Services
 {
     public class HTMLToCurriculumSheetService
     {
-        List<CourseItem> courseItemList = new List<CourseItem>();
+        List<Item> courseItemList = new List<Item>();
 
         static Stack<Module> tempModules = new Stack<Module>();
         static Stack<Module> modules = new Stack<Module>();
@@ -97,7 +97,7 @@ namespace ClassTrack.Services
                         listOpen = true;
                     }
 
-                    CourseItem course = new CourseItem();
+                    Item course = new Item();
 
                     // Markers to retrieve course title & course number in Course text 
                     int titleStartIndex = 0;

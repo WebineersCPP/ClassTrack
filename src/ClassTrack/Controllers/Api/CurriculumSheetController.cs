@@ -37,7 +37,7 @@ namespace ClassTrack.Controllers.Api
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error while retrieving curriculum sheet for {this.User.Identity.Name}");
+                return BadRequest($"Error while retrieving curriculum sheets for {this.User.Identity.Name}");
             }
         }
 

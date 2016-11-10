@@ -10,6 +10,7 @@ using ClassTrack.Services;
 using ClassTrack.ViewModels;
 using ClassTrack.Repositories;
 using ClassTrack.Models;
+using System;
 
 namespace ClassTrack
 {
@@ -89,7 +90,13 @@ namespace ClassTrack
                 );
             });
 
-            seeder.EnsureSeedData().Wait();     // asynchronously seed initial data to context
+            try
+            {
+                seeder.EnsureSeedData().Wait();     // asynchronously seed initial data to context
+            }
+            catch (Exception e)
+            {
+            }           
         }
     }
 }

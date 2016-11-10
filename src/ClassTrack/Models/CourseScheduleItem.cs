@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace ClassTrack.Models
 {
-    public class CourseScheduleItem : Item
+    public class CourseScheduleItem 
     {
-        public override int Id { get; set; }
+        public int Id { get; set; }
 
         public int Section { get; set; }
         public int Units { get; set; }
