@@ -20,11 +20,12 @@
         $http.get("/api/curriculum-sheet/" + id)
             .then(function (response) {
                 if (response.data) {
-                    vm.year = response.data.year;
-                    vm.major = response.data.major;
-                    vm.subplan = response.data.subplan;
-                    vm.minUnits = response.data.minUnitsReq;
-                    angular.copy(response.data.modules, vm.modules);
+                    var cs = response.data;
+                    vm.year = cs.year;
+                    vm.major = cs.major;
+                    vm.subplan = cs.subplan;
+                    vm.minUnits = cs.minUnitsReq;
+                    angular.copy(cs.modules, vm.modules);
                 }
                 else {
                     vm.errorMessage = "Unable to retrieve catalog.";
@@ -35,6 +36,13 @@
             .finally(function () {
                 vm.loading = false;
             });
+
+        vm.isHighlightable = function (item) {
+            if (item.isCourse == false)
+                return false;
+            else
+                return true;
+        };
     }
 })();
 

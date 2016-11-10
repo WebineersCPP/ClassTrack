@@ -26,7 +26,7 @@ namespace ClassTrack.Services
 
                 if(c.Items != null)
                 {
-                    foreach (CourseItem cc in c.Items)
+                    foreach (Item cc in c.Items)
                     {
 
                         GETCourseFromPublicSchedule get = new GETCourseFromPublicSchedule();

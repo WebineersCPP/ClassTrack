@@ -20,8 +20,9 @@ namespace ClassTrack.Models
         
         public DbSet<CurriculumSheet> CurriculumSheets { get; set; }
         public DbSet<Module> Modules { get; set; }
-        public DbSet<CourseItem> Courses { get; set; }
-        public DbSet<InfoItem> InfoItems { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<CourseScheduleItem> CourseScheduleItems { get; set; }
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

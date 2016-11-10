@@ -8,8 +8,8 @@ using ClassTrack.Models;
 namespace ClassTrack.Migrations
 {
     [DbContext(typeof(ClassTrackContext))]
-    [Migration("20161020094222_AddingIdentity")]
-    partial class AddingIdentity
+    [Migration("20161110202639_InitialDatabase")]
+    partial class InitialDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -66,6 +66,42 @@ namespace ClassTrack.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("ClassTrack.Models.CourseScheduleItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ClassNumber");
+
+                    b.Property<string>("Days");
+
+                    b.Property<int>("EndTime");
+
+                    b.Property<string>("Instructor");
+
+                    b.Property<int?>("ItemId");
+
+                    b.Property<string>("Number");
+
+                    b.Property<string>("Room");
+
+                    b.Property<int>("Section");
+
+                    b.Property<int>("StartTime");
+
+                    b.Property<string>("Time");
+
+                    b.Property<string>("Title");
+
+                    b.Property<int>("Units");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("CourseScheduleItems");
+                });
+
             modelBuilder.Entity("ClassTrack.Models.CurriculumSheet", b =>
                 {
                     b.Property<int>("Id")
@@ -78,6 +114,8 @@ namespace ClassTrack.Migrations
                     b.Property<int>("MinUnitsReq");
 
                     b.Property<string>("Subplan");
+
+                    b.Property<string>("UserName");
 
                     b.Property<int>("Year");
 
@@ -93,18 +131,23 @@ namespace ClassTrack.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
+                    b.Property<short>("HighlightColor");
+
+                    b.Property<bool>("IsCourse");
 
                     b.Property<int?>("ModuleId");
+
+                    b.Property<string>("Number");
+
+                    b.Property<string>("Title");
+
+                    b.Property<int>("Units");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ModuleId");
 
-                    b.ToTable("Item");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Item");
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("ClassTrack.Models.Module", b =>
@@ -236,32 +279,11 @@ namespace ClassTrack.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ClassTrack.Models.CourseItem", b =>
+            modelBuilder.Entity("ClassTrack.Models.CourseScheduleItem", b =>
                 {
-                    b.HasBaseType("ClassTrack.Models.Item");
-
-                    b.Property<short>("HighlightColor");
-
-                    b.Property<string>("Number");
-
-                    b.Property<string>("Title");
-
-                    b.Property<int>("Units");
-
-                    b.ToTable("CourseItem");
-
-                    b.HasDiscriminator().HasValue("CourseItem");
-                });
-
-            modelBuilder.Entity("ClassTrack.Models.InfoItem", b =>
-                {
-                    b.HasBaseType("ClassTrack.Models.Item");
-
-                    b.Property<string>("Text");
-
-                    b.ToTable("InfoItem");
-
-                    b.HasDiscriminator().HasValue("InfoItem");
+                    b.HasOne("ClassTrack.Models.Item")
+                        .WithMany("CourseScheduleItems")
+                        .HasForeignKey("ItemId");
                 });
 
             modelBuilder.Entity("ClassTrack.Models.CurriculumSheet", b =>
