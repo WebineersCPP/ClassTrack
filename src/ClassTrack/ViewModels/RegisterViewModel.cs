@@ -11,7 +11,7 @@ namespace ClassTrack.ViewModels
         [Required]
         public string Password { get; set; }
 
-		[EmailAddress]
+	    [EmailAddress]
         public string Email { get; set; }
     }
 }

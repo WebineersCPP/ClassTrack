@@ -1,19 +1,21 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
-<div class="container-fluid">
+<div id="index" class="container-fluid">
 
-    <h1>Welcome to ClassTrack</h1>
-    <p>This is going to be the welcome page for users (whether logged in or not)</p>
-    @if (User.Identity.IsAuthenticated)
-    {
-        <button onclick="location.href='@Url.Action("Home","App")'" class="btn btn-sm btn-success">Go to Home</button>
-    }
-    else
-    {
-        <button onclick="location.href='@Url.Action("Login","Auth")'" class="btn btn-sm btn-success">Log in</button>
-        <button onclick="location.href='@Url.Action("Register","Auth")'" class="btn btn-sm btn-success">Register</button>
-    }
+    <div class="content">
+        <h1>Welcome to ClassTrack</h1>
+        <p>This is going to be the welcome page for users (whether logged in or not)</p>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <button onclick="location.href='@Url.Action("Home","App")'" class="btn btn-sm btn-success">Go to Home</button>
+        }
+        else
+        {
+            <button onclick="location.href='@Url.Action("Login","Auth")'" class="btn btn-sm btn-success">Log in</button>
+            <button onclick="location.href='@Url.Action("Register","Auth")'" class="btn btn-sm btn-success">Register</button>
+        }
+    </div>
 
 </div>
 
