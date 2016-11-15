@@ -9,7 +9,10 @@
     function csController($routeParams, $http) {
         var vm = this;
         vm.loading = true;
+        vm.highlightLoading = false;
         var id = $routeParams.id;
+
+        vm.hcolor = 0;
 
         vm.year = 0;
         vm.major = "";
@@ -17,6 +20,7 @@
         vm.minUnits = 0;
         vm.modules = [];
         
+        // Call server to retrieve appropriate curriculum sheet
         $http.get("/api/curriculum-sheet/" + id)
             .then(function (response) {
                 if (response.data) {
@@ -28,7 +32,7 @@
                     angular.copy(cs.modules, vm.modules);
                 }
                 else {
-                    vm.errorMessage = "Unable to retrieve catalog.";
+                    vm.errorMessage = "Unable to retrieve catalog (id: " + id + ")";
                 }
             }, function (error) {
                 vm.errorMessage = "Error retrieving catalog: " + error;
@@ -37,12 +41,44 @@
                 vm.loading = false;
             });
 
-        vm.isHighlightable = function (item) {
-            if (item.isCourse == false)
-                return false;
-            else
-                return true;
+        // If module is a submodule, indent it a bit to the right
+        vm.isSubmodule = function (module) {
+            return module.isSubmodule == true ? true : false;
         };
+
+        // If item is a course, allow user to highlight it
+        vm.isHighlightable = function (item) {
+            return item.isCourse == true ? true : false;
+        };
+
+        // Retrieve hightlight color code from item and color it in the UI
+        vm.highlightColor = function (item) {
+            switch(item.highlightColor) {
+                case 0:
+                    return "";
+                    break;
+                case 1:
+                    return "hcolor-hastaken";
+                    break;
+                case 2:
+                    return "hcolor-istaking";
+                    break;
+                default:
+                    return "";
+            }
+        };
+
+        // Allow user to highlight item
+        vm.highlight = function (item) {
+            item.highlightColor = vm.hcolor;
+        };
+
+        // Activate highlight button
+        $('#hcolor-container a').on('click', function () {
+            $('#hcolor-container a').removeClass('active');
+            $(this).addClass('active');
+        })
+
     }
 })();
 
