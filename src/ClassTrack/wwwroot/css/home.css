@@ -26,6 +26,21 @@
     text-align: left;
 }
 
+#header #major {
+    font-weight: bold;
+    font-size: 2em;
+}
+
+#header #subplan {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+#header #year, #header #minUnits {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
 .module {
     margin: 10px 0px;
     padding: 10px;
@@ -44,11 +59,17 @@
 #hcolor-container {
     float: right;
     clear: both;
+    margin: 0 0 20px 0;
 }
 
 #hcolor-container a.active {
     border: 2px solid black;
     color: black;
+    font-weight: bold;
+}
+
+.item {
+    cursor: pointer;
 }
 
 .item .hcolor-hastaken {

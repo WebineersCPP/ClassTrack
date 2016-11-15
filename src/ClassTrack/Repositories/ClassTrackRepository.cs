@@ -30,20 +30,6 @@ namespace ClassTrack.Repositories
             return null;
         }
 
-        public CurriculumSheet GetCurriculumSheet(string username, int year, string major, string subplan)
-        {
-            if (username != null && major != null) // and year is not null
-                                                   // queryin an empty subplan is ok? is it possible to set default val of subplan catalog?
-            {
-                return _context.CurriculumSheets
-                           .Where(cs => cs.UserName == username && cs.Major == major && cs.Subplan == subplan && cs.Year == year)
-                           .Include(cs => cs.Modules)
-                           .ThenInclude(m => m.Items)
-                           .FirstOrDefault();
-            }
-            return null;
-        }
-
         public IEnumerable<CurriculumSheet> GetAllCurriculumSheets(string username)
         {
             return _context.CurriculumSheets
@@ -53,17 +39,21 @@ namespace ClassTrack.Repositories
                            .ToList();
         }
 
-        public void AddCurriculumSheet(CurriculumSheet sheet)
+        public Item UpdateItemHighlightColor(int itemId, short hcolor)
         {
-            if (sheet != null)
+            Item itemToUpdate = _context.Items
+                                        .Where(i => i.Id == itemId)
+                                        .FirstOrDefault();
+            if (itemToUpdate != null)
             {
-                _context.CurriculumSheets.Add(sheet);
-            }
-        }
+                itemToUpdate.HighlightColor = hcolor;
+                _context.SaveChanges();
 
-        public async Task<bool> SaveChangesAsync()
-        {
-            return (await _context.SaveChangesAsync()) > 0;
+                return itemToUpdate;
+            }
+
+            return null;
         }
+ 
     }
 }

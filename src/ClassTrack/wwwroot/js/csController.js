@@ -9,7 +9,6 @@
     function csController($routeParams, $http) {
         var vm = this;
         vm.loading = true;
-        vm.highlightLoading = false;
         var id = $routeParams.id;
 
         vm.hcolor = 0;
@@ -68,9 +67,25 @@
             }
         };
 
-        // Allow user to highlight item
+        // Highlight item and store update to database
         vm.highlight = function (item) {
-            item.highlightColor = vm.hcolor;
+            item.loading = true;
+
+            $http.post("/api/item/update-highlight?itemId=" + item.id + "&hcolor=" + vm.hcolor)
+                .then(function (response) {
+                    if (response) {
+                        // update highlight color in view
+                        item.highlightColor = vm.hcolor;
+                    }
+                    else {
+                        vm.errorMessage = "Unable to update item (id: " + id + ")";
+                    }
+                }, function (error) {
+                    vm.errorMessage = "Error updating item: " + error;
+                })
+                .finally(function () {
+                    item.loading = false;
+                });           
         };
 
         // Activate highlight button

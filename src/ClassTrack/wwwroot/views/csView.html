@@ -15,10 +15,13 @@
                 <a class="btn btn-danger btn-sm" ng-click="vm.hcolor = 2">Is taking</a>
             </div>
 
-            <div ng-bind="vm.major"></div>
-            <div ng-bind="vm.subplan"></div>
-            <div ng-bind="vm.year"></div>
-            <div ng-bind="vm.minUnits"></div>
+            <!-- Curriculum sheet -->
+            <div id="header">
+                <div id="major" ng-bind="vm.major"></div>
+                <div id="subplan" ng-bind="vm.subplan"></div>
+                <div id="year" ng-bind="vm.year"></div>
+                <div id="minUnits" ng-bind="vm.minUnits"></div>
+            </div>
 
             <div class="module" ng-class="{'submodule' : vm.isSubmodule(m)}" ng-repeat="m in vm.modules"> 
                 <div class="title table-cell" ng-bind="m.title"></div>
@@ -29,7 +32,7 @@
                         <div class="table-cell" ng-show="vm.isHighlightable(i)" ng-bind="i.number"></div>
                         <div class="table-cell" ng-bind="i.title"></div>
                         <div class="table-cell pl20" ng-show="vm.isHighlightable(i)" ng-bind="i.units"></div>
-                        <div class="table-cell" ng-show="vm.highlightLoading"><i class="fa fa-circle-o-notch fa-spin"></i></div>
+                        <div class="table-cell" ng-show="i.loading"><i class="fa fa-circle-o-notch fa-spin"></i></div>
                     </div>                  
                 </div>
             </div>
