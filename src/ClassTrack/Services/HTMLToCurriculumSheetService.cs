@@ -50,6 +50,20 @@ namespace ClassTrack.Services
             var root = html.DocumentNode;
             var htmlNodes = root.Descendants();
 
+
+            // Set catalog year to the curriculum sheet
+            var ano = root.Descendants().Where(p => p.GetAttributeValue("name", "").Equals("catalog"));
+
+            String yearStr = "";
+            foreach (HtmlNode node in ano)
+                yearStr = node.InnerHtml;
+
+            int yearInt;
+            Int32.TryParse(yearStr.Substring(yearStr.IndexOf("selected") + 12, 4), out yearInt);
+            cs.Year = yearInt;
+
+
+
             // Initialize and find description locations
             var descrip = root.Descendants().Where(p => p.GetAttributeValue("class", "").Equals("acalog-core"));
 
@@ -59,6 +73,15 @@ namespace ClassTrack.Services
                         descripLineLocation.Add(cnode.LinePosition);
 
             //loadedNodes = htmlNodes;
+
+            foreach (HtmlNode node in htmlNodes)
+            {
+                if (node.Name == "h1")
+                {
+                    cs.Major = node.InnerText;
+                    break;
+                }
+            }
 
             // Search through fetched html nodes for relevant information
             foreach (HtmlNode node in htmlNodes)
@@ -184,6 +207,7 @@ namespace ClassTrack.Services
             // Return curriculum sheet
             return cs;
         }
+
     }
 }
 
