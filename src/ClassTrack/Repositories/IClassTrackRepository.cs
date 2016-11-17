@@ -9,14 +9,27 @@ namespace ClassTrack.Repositories
 {
     public interface IClassTrackRepository
     {
+        /// <summary>
+        /// Retrieves a particular curriculum sheet from a given user
+        /// </summary>
+        /// <param name="username">The owner of the curriculum sheet</param>
+        /// <param name="id">The id of the specific curriculum sheet</param>
+        /// <returns></returns>
         CurriculumSheet GetCurriculumSheet(string username, int id);
 
-        CurriculumSheet GetCurriculumSheet(string username, int year, string major, string subplan);
-
+        /// <summary>
+        /// Retrieves all the curriculum sheets pertaining to a particular user
+        /// </summary>
+        /// <param name="username">The owner of the curriculum sheets to be retrieved</param>
+        /// <returns></returns>
         IEnumerable<CurriculumSheet> GetAllCurriculumSheets(string username);
 
-        void AddCurriculumSheet(CurriculumSheet curriculumSheet);
+        /// <summary>
+        /// Updates a specific item's highlight color
+        /// </summary>
+        /// <param name="itemId">The specific item id to be updated</param>
+        /// <param name="hcolor">The highlight color key to be applied to the item</param>
+        Item UpdateItemHighlightColor(int itemId, short hcolor);
 
-        Task<bool> SaveChangesAsync();
     }
 }

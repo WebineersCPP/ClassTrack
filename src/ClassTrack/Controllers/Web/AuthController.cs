@@ -13,10 +13,12 @@ namespace ClassTrack.Controllers.Web
     public class AuthController : Controller
     {
         private SignInManager<ClassTrackUser> _signInManager;
+        private UserManager<ClassTrackUser> _userManager;
 
-        public AuthController(SignInManager<ClassTrackUser> signInManager)
+        public AuthController(SignInManager<ClassTrackUser> signInManager, UserManager<ClassTrackUser> userManager)
         {
             _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         public IActionResult Login()
@@ -42,6 +44,52 @@ namespace ClassTrack.Controllers.Web
                 {
                     ModelState.AddModelError("", "Username or password incorrect");
                 }
+            }
+            return View();
+        }
+
+        public IActionResult Register()
+        {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Home", "App");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ClassTrackUser()
+                {
+                    UserName = vm.Username.Trim(),
+                    Email = vm.Email,
+                    Created = DateTime.Now,
+                    Updated = DateTime.Now
+                };
+
+                var result = await _userManager.CreateAsync(user, vm.Password);
+
+                if (result.Succeeded)
+                {
+                    // Authenticate user and redirect to Home page
+                    await _signInManager.PasswordSignInAsync(vm.Username, vm.Password, true, false);
+                    return RedirectToAction("Home", "App");
+                }
+                else
+                {
+                    List<IdentityError> errors = result.Errors.ToList();
+                    foreach (IdentityError err in errors)
+                    {
+                        ModelState.AddModelError("", err.Description);
+                    }
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Some data fields are invalid.");
             }
             return View();
         }

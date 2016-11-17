@@ -1,27 +1,39 @@
 ﻿<!-- csView.html -->
 
-<div>
+<div id="csView">
     <div ng-show="vm.loading"><i class="fa fa-circle-o-notch fa-spin"></i></div>
 
     <div ng-hide="vm.loading">
 
         <div class="curriculum-sheet-detail">
-            <div ng-bind="vm.major"></div>
-            <div ng-bind="vm.subplan"></div>
-            <div ng-bind="vm.year"></div>
-            <div ng-bind="vm.minUnits"></div>
 
-            <div class="module" ng-repeat="m in vm.modules">
-                <div ng-if="m.isSubmodule">
-                    indent here
-                </div>
-                <div>
-                    <div ng-bind="m.title"></div>
-                    <div class="item" ng-repeat="i in m.items">
-                        <div ng-if="vm.isHighlightable(i)">
-                            {{ i.id }}
-                        </div>
-                    </div>
+            <!-- Highlight color selection -->
+            <div id="hcolor-container">
+                Choose a highglight color:
+                <a class="btn btn-default btn-sm active" ng-click="vm.hcolor = 0">None</a>
+                <a class="btn btn-warning btn-sm" ng-click="vm.hcolor = 1">Has taken</a>
+                <a class="btn btn-danger btn-sm" ng-click="vm.hcolor = 2">Is taking</a>
+            </div>
+
+            <!-- Curriculum sheet -->
+            <div id="header">
+                <div id="major" ng-bind="vm.major"></div>
+                <div id="subplan" ng-bind="vm.subplan"></div>
+                <div id="year" ng-bind="vm.year"></div>
+                <div id="minUnits" ng-bind="vm.minUnits"></div>
+            </div>
+
+            <div class="module" ng-class="{'submodule' : vm.isSubmodule(m)}" ng-repeat="m in vm.modules"> 
+                <div class="title table-cell" ng-bind="m.title"></div>
+                <div class="units table-cell pl20" ng-bind="m.units" ng-hide="vm.isSubmodule(m)"></div>           
+                <div class="description" ng-bind="m.description"></div>
+                <div class="item" ng-repeat="i in m.items">
+                    <div ng-class="vm.highlightColor(i)" ng-click="vm.highlight(i)">
+                        <div class="table-cell" ng-show="vm.isHighlightable(i)" ng-bind="i.number"></div>
+                        <div class="table-cell" ng-bind="i.title"></div>
+                        <div class="table-cell pl20" ng-show="vm.isHighlightable(i)" ng-bind="i.units"></div>
+                        <div class="table-cell" ng-show="i.loading"><i class="fa fa-circle-o-notch fa-spin"></i></div>
+                    </div>                  
                 </div>
             </div>
         </div>

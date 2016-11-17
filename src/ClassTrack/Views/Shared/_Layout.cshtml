@@ -18,12 +18,16 @@
             {
                 <li id="username">Hello, @User.Identity.Name</li>
             }
+            else
+            {
+                <li id="username">Hello, there!</li>
+            }
             <li><a asp-controller="App" asp-action="Index">Index</a></li>
             <li><a asp-controller="App" asp-action="About">About ClassTrack</a></li>
             <li><a asp-controller="App" asp-action="Contact">Meet the Devs</a></li>
             @if (User.Identity.IsAuthenticated)
             {
-                <li><a asp-controller="App" asp-action="Home">My Curriculum Sheet</a></li>
+                <li><a asp-controller="App" asp-action="Home">My Curriculum Sheets</a></li>
                 <li><a asp-controller="Auth" asp-action="Logout">Logout</a></li>
             }
             else
@@ -33,34 +37,13 @@
         </ul>
     </div>
 
-    <div id="wrapper">
-        <nav class="navbar navbar-inverse">
-            <div class="container-fluid">
-                <ul class="nav navbar-nav navbar-left">
-                    <li>
-                        <button id="sidebarToggle" class="btn btn-default">
-                            <i class="fa fa-angle-left"></i>
-                        </button>
-                    </li>
-                </ul>
-                <a asp-controller="App" asp-action="Index" class="navbar-brand">ClassTrack</a>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="/Account/Index" class="btn btn-sm btn-info">
-                                <i class="fa fa-user"></i> My Account
-                            </a>
-                        </li>
-                    </ul>
-                }
-            </div>
-        </nav>
+    <button id="sidebarToggle" class="btn btn-default">
+        <i class="fa fa-angle-left"></i>
+    </button>
 
-        <div id="main" class="container-fluid">
-            <div>
-                @RenderBody()
-            </div>
+    <div id="wrapper">
+        <div id="main" class="container-fluid p0">
+            @RenderBody()
         </div>
     </div>
 

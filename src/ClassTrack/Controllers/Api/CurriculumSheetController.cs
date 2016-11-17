@@ -41,32 +41,5 @@ namespace ClassTrack.Controllers.Api
             }
         }
 
-        [HttpPost("")]
-        public async Task<IActionResult> PostCurriculumSheet([FromBody]CurriculumSheetViewModel sheet)
-        {
-            try
-            {
-                // Given the user params, 
-                // call a service that would retrieve the proper curriculum sheet link from school's website
-                // and then transform that html data into json format
-                // then, use that json format to create the appropriate CurriculumSheet object 
-                // Code below stores that object into the database
-
-                var curriculumSheet = Mapper.Map<CurriculumSheet>(sheet);
-                _repository.AddCurriculumSheet(curriculumSheet);
-
-                if (await _repository.SaveChangesAsync())
-                {
-                    return Created("{sheet.Year}/{sheet.Major}/", curriculumSheet);
-                }
-
-                return BadRequest("Unable to add curriculum sheet");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest("Error while adding curriculum sheet");
-            }
-        }
-
     }
 }

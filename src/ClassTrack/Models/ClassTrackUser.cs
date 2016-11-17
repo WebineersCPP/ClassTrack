@@ -10,5 +10,8 @@ namespace ClassTrack.Models
     public class ClassTrackUser : IdentityUser
     {
         public ICollection<CurriculumSheet> CurriculumSheets { get; set; }
+
+        public DateTime Created { get; set; }
+        public DateTime Updated { get; set; }
     }
 }
