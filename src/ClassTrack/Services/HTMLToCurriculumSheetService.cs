@@ -6,6 +6,7 @@ using HtmlAgilityPack;
 using System.Net.Http;
 using ClassTrack.Models;
 using System.Net;
+using System.Xml;
 //using System.Web.Http;
 
 namespace ClassTrack.Services
@@ -26,6 +27,7 @@ namespace ClassTrack.Services
         public string catalogLink { get; set; }
         //public IEnumerable<HtmlNode> loadedNodes { get; set; }
 
+        List<int> descripLineLocation = new List<int>();
 
         public async Task<CurriculumSheet> getCurriculumSheet(string url)
         {
@@ -47,6 +49,14 @@ namespace ClassTrack.Services
 
             var root = html.DocumentNode;
             var htmlNodes = root.Descendants();
+
+            // Initialize and find description locations
+            var descrip = root.Descendants().Where(p => p.GetAttributeValue("class", "").Equals("acalog-core"));
+
+            foreach (HtmlNode node in descrip)
+                foreach (HtmlNode cnode in node.ChildNodes)
+                    if (cnode.Name == "p" && cnode.InnerHtml.Contains("<strong>") == false)
+                        descripLineLocation.Add(cnode.LinePosition);
 
             //loadedNodes = htmlNodes;
 
@@ -86,6 +96,17 @@ namespace ClassTrack.Services
 
                     tempModules.Push(currentModule);
                 }
+
+                // Get description for module
+                foreach (int i in descripLineLocation)
+                {
+                    if (i == node.LinePosition && tempModules.Count != 0)
+                    {
+                        tempModules.Peek().Description = node.InnerText;
+                        break;
+                    }
+                }
+
 
                 // Courses with acalog-course class attribute
                 if (node.GetAttributeValue("class", "").Equals("acalog-course"))
