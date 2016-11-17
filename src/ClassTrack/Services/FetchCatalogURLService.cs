@@ -45,28 +45,16 @@ namespace ClassTrack.Services
         public string findCollegeURL(string catalog, string college)
         {
             //Find college
+            //Load catalog HTML Document
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(catalog);
-            var root = doc.DocumentNode;
-            var htmlNodes = root.DescendantsAndSelf();
+           
+            //Find HTML node with Inner Text matching college name
+            var links = doc.DocumentNode.Descendants("a").Where(a => a.InnerText == colleges[college])
+               .Select(a => a.Attributes["href"].Value)
+               .ToList();
 
-            // Search through fetched html nodes for relevant information
-            int counter = 0;
-            foreach (HtmlNode node in htmlNodes) {
-                string linkName = node.InnerText;
-                if (linkName == colleges[college] )//&& counter == 0
-                {
-                    string targetURL = node.Attributes["href"].Value;
-                    return targetURL;
-                }  
-                else if(linkName == colleges[college] && counter == 1)
-                {
-                    string targetURL = "found it!"; //node.Attributes["href"].Value;
-                    return targetURL;
-                }/* */
-            }
-
-            return "DID NOT WORK";
+            return "http://catalog.cpp.edu" + links[1];
         } 
 
         public async Task<string> chooseCatalogYear(string year) 
@@ -86,7 +74,7 @@ namespace ClassTrack.Services
             var response = await client.PostAsync(catalogURL, encodedContent).ConfigureAwait(false);
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                // Do something with response. Example get content:
+                // Return response, which is an HTML string
                 var responseContent = await response.Content.ReadAsStringAsync ().ConfigureAwait (false);
                 return responseContent;
             }

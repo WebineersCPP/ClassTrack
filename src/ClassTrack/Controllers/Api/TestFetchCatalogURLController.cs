@@ -14,13 +14,11 @@ namespace ClassTrack.Controllers.Api
         [HttpGet("api/FetchURL")]
         public async Task<IActionResult> Get()
         {
-            // TESTING THE HTMLToCurriculumSheetService BY CALLING IT **SEE DEBUGGING CONSOLE FOR RETURNED CURRICULUM SHEET**
-            // PASS IN ANY CATALOG URL
-            // BREAKPOINT IS SET IN THE LINE OF RETURN AT THE END OF HTMLToCurriculumSheetService CLASS
+            //Testing to see what is returned by the FetchCatalogURL Service
             FetchCatalogURLService testService = new FetchCatalogURLService();
             //string url = "http://catalog.cpp.edu/preview_program.php?catoid=4&poid=983&returnto=751";
 
-            string message = await testService.GetMajorPlanUrl("CS","SCI","2013");
+            string message = await testService.GetMajorPlanUrl("HRM","BUS","2013");//testService.chooseCatalogYear("2013");//
             return Ok(message);
         }
     }
