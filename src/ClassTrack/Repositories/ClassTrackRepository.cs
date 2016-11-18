@@ -54,6 +54,13 @@ namespace ClassTrack.Repositories
 
             return null;
         }
+
+        public IEnumerable<CPPMajor> GetAllCPPMajors()
+        {
+            return _context.CPPMajors
+                           .Include(m => m.Subplans)
+                           .ToList();
+        }
  
     }
 }

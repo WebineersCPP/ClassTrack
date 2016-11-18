@@ -1,0 +1,63 @@
+﻿<!-- addView.html -->
+
+<div id="addView">
+    <h1>Add a new curriculum sheet</h1>
+    <div ng-show="vm.loading"><i class="fa fa-circle-o-notch fa-spin"></i></div>
+    <div class="text-danger" ng-show="vm.errorMessage">{{vm.errorMessage}}</div>
+
+    <div ng-hide="vm.loading" class="curriculum-sheet-form">
+        <form ng-submit="addNew()">
+
+            <!-- Major selection -->
+            <p>Select the major you are pursuing:</p>
+            <md-autocomplete md-selected-item="vm.selectedMajor"
+                             md-selected-item-change="vm.selectedItemChange(item)"
+                             md-search-text="searchMajor"
+                             md-items="item in vm.querySearchMajor(searchMajor)"
+                             md-item-text="item.title"
+                             md-min-length="0"
+                             placeholder="Choose a major...">
+                <md-item-template>
+                    <span md-highlight-text="searchMajor" md-highlight-flags="^i">{{item.title}}</span>
+                </md-item-template>
+                <md-not-found>
+                    No majors matching "{{searchMajor}}" were found.
+                </md-not-found>
+            </md-autocomplete>
+            <br />
+
+            <!-- Subplan selection -->
+            <p>If your major specifies a subplan, select it from below:</p>
+            <md-autocomplete ng-disabled="!vm.selectedMajor"
+                             md-no-cache="true"
+                             md-selected-item="vm.selectedSubplan"
+                             md-search-text="searchSubplan"
+                             md-items="item in vm.querySearchSubplan(searchSubplan)"
+                             md-item-text="item.title"
+                             md-min-length="0"
+                             placeholder="Choose a submajor...">
+                <md-item-template>
+                    <span md-highlight-text="searchSubplan" md-highlight-flags="^i">{{item.title}}</span>
+                </md-item-template>
+                <md-not-found>
+                    No submajors matching "{{searchSubplan}}" were found.
+                </md-not-found>
+            </md-autocomplete>
+            <br />
+
+            <!-- Year selection -->
+            <p>Curriculum sheets from the following years are available below. Select one:</p>
+            <div ng-repeat="year in vm.years">
+                <label>
+                    <input type="radio" ng-model="vm.selectedYear" value="{{year}}">
+                    {{year}} - {{year+1}}
+                </label>
+            </div>
+            
+            <!-- Submit button -->
+            <button ng-click="vm.submit()" class="center btn btn-primary">Create new curriculum sheet</button>
+
+        </form>
+    </div>
+        
+</div>

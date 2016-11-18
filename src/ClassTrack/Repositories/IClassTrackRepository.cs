@@ -31,5 +31,11 @@ namespace ClassTrack.Repositories
         /// <param name="hcolor">The highlight color key to be applied to the item</param>
         Item UpdateItemHighlightColor(int itemId, short hcolor);
 
+        /// <summary>
+        /// Retrieves all majors available from CPP
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<CPPMajor> GetAllCPPMajors();
+
     }
 }

@@ -1,6 +1,8 @@
 ﻿<!-- homeView.html -->
 
-<div>
+<div id="homeView">
+    <h1>Your Curriculum Sheets</h1>
+
     <div ng-show="vm.loading"><i class="fa fa-circle-o-notch fa-spin"></i></div>
     <div class="text-danger" ng-show="vm.errorMessage">{{vm.errorMessage}}</div>
 
@@ -8,6 +10,6 @@
         <div ng-repeat="c in vm.curriculumSheets">
             <a ng-href="#/detail/{{c.id}}" class="curriculum-sheet btn btn-block btn-success">{{ c.major }}, {{ c.subplan }} {{ c.year }}</a>
         </div>
-        <a ng-href="#/" class="curriculum-sheet btn btn-block btn-default"><i class="fa fa-plus-square" aria-hidden="true"></i> Add new curriculum sheet</a>
+        <a ng-href="#/add" class="curriculum-sheet btn btn-block btn-default"><i class="fa fa-plus-square" aria-hidden="true"></i> Add new curriculum sheet</a>
     </div>
 </div>
