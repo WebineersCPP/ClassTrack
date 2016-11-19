@@ -7,6 +7,7 @@ using System.Net.Http;
 using ClassTrack.Models;
 using System.Net;
 using System.Xml;
+using System.Text.RegularExpressions;
 //using System.Web.Http;
 
 namespace ClassTrack.Services
@@ -99,6 +100,12 @@ namespace ClassTrack.Services
 
                     currentModule = new Module();
                     currentModule.Title = node.InnerText;
+
+                    String unitStr = Regex.Match(node.InnerText, @"\d+").Value;
+                    int unitInt;
+                    Int32.TryParse(unitStr, out unitInt);
+
+                    currentModule.Units = unitInt;
                     currentModule.IsSubmodule = false;
 
                     tempModules.Push(currentModule);
@@ -142,6 +149,7 @@ namespace ClassTrack.Services
                     }
 
                     Item course = new Item();
+                    course.IsCourse = true;
 
                     // Markers to retrieve course title & course number in Course text 
                     int titleStartIndex = 0;
