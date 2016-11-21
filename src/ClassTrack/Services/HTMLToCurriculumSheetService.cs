@@ -95,8 +95,27 @@ namespace ClassTrack.Services
             {
                 if (node.Name == "h1")
                 {
-                    cs.Major = node.InnerText;
-                    break;
+                    if (node.InnerText.Contains("Subplan"))
+                    {
+                        String title = node.InnerText;
+
+                        String fromStr = " - ";
+                        String toStr = "Subplan";
+                        int pFrom = title.IndexOf(fromStr) + fromStr.Length;
+                        int pTo = title.LastIndexOf(toStr);
+
+                        String major = title.Substring(0, title.IndexOf(fromStr));
+                        String subplan = title.Substring(pFrom, pTo - pFrom);
+
+                        cs.Major = major;
+                        cs.Subplan = subplan;
+                        break;
+                    }
+                    else
+                    {
+                        cs.Major = node.InnerText;
+                        break;
+                    }
                 }
             }
 
