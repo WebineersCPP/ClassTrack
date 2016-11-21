@@ -29,6 +29,8 @@ namespace ClassTrack.Services
         //public IEnumerable<HtmlNode> loadedNodes { get; set; }
 
         List<int> descripLineLocation = new List<int>();
+        List<int> nonCourseItemLocation = new List<int>();
+
 
         public async Task<CurriculumSheet> getCurriculumSheet(string url)
         {
@@ -69,9 +71,23 @@ namespace ClassTrack.Services
             var descrip = root.Descendants().Where(p => p.GetAttributeValue("class", "").Equals("acalog-core"));
 
             foreach (HtmlNode node in descrip)
+            {
                 foreach (HtmlNode cnode in node.ChildNodes)
-                    if (cnode.Name == "p" && cnode.InnerHtml.Contains("<strong>") == false)
+                {
+                    if (cnode.Name == "p" && !cnode.InnerHtml.Contains("<strong>"))
                         descripLineLocation.Add(cnode.LinePosition);
+
+                    if (cnode.Name == "p" && !cnode.InnerHtml.Contains("<strong>"))
+                        descripLineLocation.Add(cnode.LinePosition);
+
+                    if (cnode.Name == "ul" && !cnode.InnerHtml.Contains("<strong>") && !cnode.InnerHtml.Contains("\"acalog-course\""))
+                        nonCourseItemLocation.Add(cnode.LinePosition);
+
+
+                }
+            }
+
+
 
             //loadedNodes = htmlNodes;
 
@@ -138,6 +154,8 @@ namespace ClassTrack.Services
                 }
 
 
+
+
                 // Courses with acalog-course class attribute
                 if (node.GetAttributeValue("class", "").Equals("acalog-course"))
                 {
@@ -200,6 +218,45 @@ namespace ClassTrack.Services
                     course.Title = courseText.Substring(titleStartIndex, titleEndIndex - titleStartIndex);
 
                     courseList.Add(course);
+                }
+                else if (node.GetAttributeValue("class", "").StartsWith("acalog-adhoc"))
+                {
+                    if (listOpen == false)
+                    {
+                        courseList = new List<Item>();
+                        listOpen = true;
+                    }
+
+                    Item course = new Item();
+                    course.IsCourse = false;
+
+                    course.Title = node.InnerText;
+
+                    courseList.Add(course);
+
+                }
+                else //if (node.Name == "ul" && node.InnerHtml.Contains("<strong>") == false)
+                {
+                    // Get description for module
+                    foreach (int i in nonCourseItemLocation)
+                    {
+                        if (i == node.LinePosition)
+                        {
+                            if (listOpen == false)
+                            {
+                                courseList = new List<Item>();
+                                listOpen = true;
+                            }
+
+                            Item course = new Item();
+                            course.IsCourse = false;
+
+                            course.Title = node.InnerText.Trim();
+
+                            courseList.Add(course);
+                            break;
+                        }
+                    }
                 }
             }
 
