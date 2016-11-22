@@ -20,12 +20,12 @@
                 <div id="major" ng-bind="vm.major"></div>
                 <div id="subplan" ng-bind="vm.subplan"></div>
                 <div id="year" ng-bind="vm.year"></div>
-                <div id="minUnits" ng-bind="vm.minUnits"></div>
+                <!--<div id="minUnits" ng-bind="vm.minUnits"></div>-->
             </div>
 
             <div class="module" ng-class="{'submodule' : vm.isSubmodule(m)}" ng-repeat="m in vm.modules"> 
                 <div class="title table-cell" ng-bind="m.title"></div>
-                <div class="units table-cell pl20" ng-bind="m.units" ng-hide="vm.isSubmodule(m)"></div>           
+                <!--<div class="units table-cell pl20" ng-bind="m.units" ng-hide="vm.isSubmodule(m)"></div>-->       
                 <div class="description" ng-bind="m.description"></div>
                 <div class="item" ng-repeat="i in m.items">
                     <div ng-class="vm.highlightColor(i)" ng-click="vm.highlight(i)">

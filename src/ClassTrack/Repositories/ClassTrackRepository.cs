@@ -1,4 +1,6 @@
 ﻿using ClassTrack.Models;
+using ClassTrack.Services;
+using ClassTrack.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -39,6 +41,21 @@ namespace ClassTrack.Repositories
                            .ToList();
         }
 
+        public CurriculumSheet PostCurriculumSheet(CurriculumSheet cs)
+        {
+            try
+            {
+                _context.CurriculumSheets.Add(cs);
+                _context.SaveChanges();
+
+                return cs;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public Item UpdateItemHighlightColor(int itemId, short hcolor)
         {
             Item itemToUpdate = _context.Items
@@ -61,6 +78,6 @@ namespace ClassTrack.Repositories
                            .Include(m => m.Subplans)
                            .ToList();
         }
- 
+        
     }
 }

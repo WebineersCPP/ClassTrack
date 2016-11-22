@@ -6,7 +6,7 @@
     angular.module("app-home")
         .controller("addController", addController);
 
-    function addController($http) {
+    function addController($http, $window) {
         var vm = this;
         vm.loading = true;
 
@@ -38,7 +38,7 @@
                     vm.errorMessage = "Not available majors to show.";
                 }
             }, function (error) {
-                vm.errorMessage = "Unable to retrieve majors from database: " + error;
+                vm.errorMessage = error.data;
             })
             .finally(function () {
                 vm.loading = false;
@@ -73,7 +73,32 @@
 
         // Call service in database to store newly created user curriculum sheet
         vm.submit = function () {
-            //TODO
+            // validate input
+            if (!vm.selectedMajor || !vm.selectedYear) {
+                vm.errorMessage = "Must specify input major and/or year";
+            } else {
+                var cs = {
+                    year: parseInt(vm.selectedYear),
+                    major: vm.selectedMajor.title,
+                    subplan: vm.selectedSubplan.title
+                };
+
+                $http.post("/api/curriculum-sheet", cs)
+                .then(function (response) {
+                    if (response.data != null) {
+                        var id = response.data.id;
+                        $window.location.href = "#/detail/" + id;
+                    }
+                    else {
+                        vm.errorMessage = "New curriculum sheet was not added";
+                    }
+                }, function (error) {
+                    vm.errorMessage = error.data;
+                })
+                .finally(function () {
+                    vm.loading = false;
+                });
+            }
         }
     }
 })();
