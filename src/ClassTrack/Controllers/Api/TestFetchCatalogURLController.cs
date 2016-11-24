@@ -18,7 +18,7 @@ namespace ClassTrack.Controllers.Api
             FetchCatalogURLService testService = new FetchCatalogURLService();
             //string url = "http://catalog.cpp.edu/preview_program.php?catoid=4&poid=983&returnto=751";
 
-            string message = await testService.GetMajorPlanUrl("HRM","BUS","2013");//testService.chooseCatalogYear("2013");//
+            string message = await testService.GetMajorPlanUrl("Accounting","BUS","2013");//testService.chooseCatalogYear("2013");//
             return Ok(message);
         }
     }

@@ -39,12 +39,35 @@ namespace ClassTrack.Services
         { 
             string catalog = await chooseCatalogYear(year);
             string collegeURL = findCollegeURL(catalog, college);
-            return collegeURL;
-
+            string majorURL = findMajorURL(collegeURL, major);
+            return majorURL;
         }
+
+        public string findMajorURL(string collegeURL, string major)
+        {
+            HtmlDocument doc = new HtmlDocument();
+            doc.LoadHtml(collegeURL);
+            var root = doc.DocumentNode;
+            var htmlNodes = root.Descendants();
+            //Find html node containing the major heading
+            foreach(HtmlNode node in htmlNodes)
+            {
+                if (node.InnerText == major)
+                {
+                    HtmlNode target = node.NextSibling;
+                    List<string> links = target.Descendants("a").Select(a => a.Attributes["href"].Value).ToList();
+                    return links.First()+ "__IT WORKED__";
+                }
+            }
+
+            
+            return "NoPE"; //+links.First().ToString();
+        }
+        
+        //Find correct web link for given college
         public string findCollegeURL(string catalog, string college)
         {
-            //Find college
+            
             //Load catalog HTML Document
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(catalog);
