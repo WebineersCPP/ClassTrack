@@ -22,7 +22,9 @@ namespace ClassTrack.Models
         public DbSet<Module> Modules { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<CourseScheduleItem> CourseScheduleItems { get; set; }
-        
+
+        public DbSet<CPPMajor> CPPMajors { get; set; }
+        public DbSet<CPPMajor> CPPSubplans { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

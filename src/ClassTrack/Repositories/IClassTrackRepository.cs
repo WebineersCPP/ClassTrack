@@ -1,4 +1,5 @@
 ﻿using ClassTrack.Models;
+using ClassTrack.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,11 +26,24 @@ namespace ClassTrack.Repositories
         IEnumerable<CurriculumSheet> GetAllCurriculumSheets(string username);
 
         /// <summary>
+        /// Adds a new user curriculum sheet to the database
+        /// </summary>
+        /// <param name="cs">The curriculum sheet to be added</param>
+        /// <returns></returns>
+        CurriculumSheet PostCurriculumSheet(CurriculumSheet cs);
+
+        /// <summary>
         /// Updates a specific item's highlight color
         /// </summary>
         /// <param name="itemId">The specific item id to be updated</param>
         /// <param name="hcolor">The highlight color key to be applied to the item</param>
         Item UpdateItemHighlightColor(int itemId, short hcolor);
+
+        /// <summary>
+        /// Retrieves all majors available from CPP
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<CPPMajor> GetAllCPPMajors();
 
     }
 }

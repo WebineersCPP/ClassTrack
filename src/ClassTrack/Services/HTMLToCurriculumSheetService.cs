@@ -7,6 +7,7 @@ using System.Net.Http;
 using ClassTrack.Models;
 using System.Net;
 using System.Xml;
+using System.Text.RegularExpressions;
 //using System.Web.Http;
 
 namespace ClassTrack.Services
@@ -28,6 +29,8 @@ namespace ClassTrack.Services
         //public IEnumerable<HtmlNode> loadedNodes { get; set; }
 
         List<int> descripLineLocation = new List<int>();
+        List<int> nonCourseItemLocation = new List<int>();
+
 
         public async Task<CurriculumSheet> getCurriculumSheet(string url)
         {
@@ -68,9 +71,23 @@ namespace ClassTrack.Services
             var descrip = root.Descendants().Where(p => p.GetAttributeValue("class", "").Equals("acalog-core"));
 
             foreach (HtmlNode node in descrip)
+            {
                 foreach (HtmlNode cnode in node.ChildNodes)
-                    if (cnode.Name == "p" && cnode.InnerHtml.Contains("<strong>") == false)
+                {
+                    if (cnode.Name == "p" && !cnode.InnerHtml.Contains("<strong>"))
                         descripLineLocation.Add(cnode.LinePosition);
+
+                    if (cnode.Name == "p" && !cnode.InnerHtml.Contains("<strong>"))
+                        descripLineLocation.Add(cnode.LinePosition);
+
+                    if (cnode.Name == "ul" && !cnode.InnerHtml.Contains("<strong>") && !cnode.InnerHtml.Contains("\"acalog-course\""))
+                        nonCourseItemLocation.Add(cnode.LinePosition);
+
+
+                }
+            }
+
+
 
             //loadedNodes = htmlNodes;
 
@@ -78,8 +95,27 @@ namespace ClassTrack.Services
             {
                 if (node.Name == "h1")
                 {
-                    cs.Major = node.InnerText;
-                    break;
+                    if (node.InnerText.Contains("Subplan"))
+                    {
+                        String title = node.InnerText;
+
+                        String fromStr = " - ";
+                        String toStr = "Subplan";
+                        int pFrom = title.IndexOf(fromStr) + fromStr.Length;
+                        int pTo = title.LastIndexOf(toStr);
+
+                        String major = title.Substring(0, title.IndexOf(fromStr));
+                        String subplan = title.Substring(pFrom, pTo - pFrom);
+
+                        cs.Major = major;
+                        cs.Subplan = subplan;
+                        break;
+                    }
+                    else
+                    {
+                        cs.Major = node.InnerText;
+                        break;
+                    }
                 }
             }
 
@@ -99,6 +135,12 @@ namespace ClassTrack.Services
 
                     currentModule = new Module();
                     currentModule.Title = node.InnerText;
+
+                    String unitStr = Regex.Match(node.InnerText, @"\d+").Value;
+                    int unitInt;
+                    Int32.TryParse(unitStr, out unitInt);
+
+                    currentModule.Units = unitInt;
                     currentModule.IsSubmodule = false;
 
                     tempModules.Push(currentModule);
@@ -131,6 +173,8 @@ namespace ClassTrack.Services
                 }
 
 
+
+
                 // Courses with acalog-course class attribute
                 if (node.GetAttributeValue("class", "").Equals("acalog-course"))
                 {
@@ -142,6 +186,7 @@ namespace ClassTrack.Services
                     }
 
                     Item course = new Item();
+                    course.IsCourse = true;
 
                     // Markers to retrieve course title & course number in Course text 
                     int titleStartIndex = 0;
@@ -192,6 +237,45 @@ namespace ClassTrack.Services
                     course.Title = courseText.Substring(titleStartIndex, titleEndIndex - titleStartIndex);
 
                     courseList.Add(course);
+                }
+                else if (node.GetAttributeValue("class", "").StartsWith("acalog-adhoc"))
+                {
+                    if (listOpen == false)
+                    {
+                        courseList = new List<Item>();
+                        listOpen = true;
+                    }
+
+                    Item course = new Item();
+                    course.IsCourse = false;
+
+                    course.Title = node.InnerText;
+
+                    courseList.Add(course);
+
+                }
+                else //if (node.Name == "ul" && node.InnerHtml.Contains("<strong>") == false)
+                {
+                    // Get description for module
+                    foreach (int i in nonCourseItemLocation)
+                    {
+                        if (i == node.LinePosition)
+                        {
+                            if (listOpen == false)
+                            {
+                                courseList = new List<Item>();
+                                listOpen = true;
+                            }
+
+                            Item course = new Item();
+                            course.IsCourse = false;
+
+                            course.Title = node.InnerText.Trim();
+
+                            courseList.Add(course);
+                            break;
+                        }
+                    }
                 }
             }
 

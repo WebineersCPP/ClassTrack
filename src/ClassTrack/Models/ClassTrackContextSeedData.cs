@@ -31,6 +31,41 @@ namespace ClassTrack.Models
                 await _userManager.CreateAsync(user, "P@ssw0rd");
             }
 
+            if(!_context.CPPMajors.Any())
+            {
+                CPPMajor major = new CPPMajor()
+                {
+                    Title = "Computer Science"
+                };
+                _context.CPPMajors.Add(major);
+                major = new CPPMajor()
+                {
+                    Title = "Business Administration",
+                    Subplans = new List<CPPSubplan>()
+                    {
+                        new CPPSubplan() { Title = "Accounting" },
+                        new CPPSubplan() { Title = "Computer Information Systems" },
+                        new CPPSubplan() { Title = "E-Business" },
+                        new CPPSubplan() { Title = "Finance, Real Estate, and Law" },
+                        new CPPSubplan() { Title = "International Business" },
+                        new CPPSubplan() { Title = "Management and Human Resources" },
+                        new CPPSubplan() { Title = "Marketing Management" },
+                        new CPPSubplan() { Title = "Technology and Operations Management" },
+                    } 
+                };
+                _context.CPPMajors.Add(major);
+                major = new CPPMajor()
+                {
+                    Title = "Communication"
+                };
+                _context.CPPMajors.Add(major);
+                major = new CPPMajor()
+                {
+                    Title = "History"
+                };
+                _context.CPPMajors.Add(major);
+            }
+
             if (!_context.CurriculumSheets.Any())
             {
                 CurriculumSheet cs = new CurriculumSheet()

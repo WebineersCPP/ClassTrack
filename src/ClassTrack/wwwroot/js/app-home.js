@@ -2,7 +2,7 @@
     "use strict";
 
     // create the module
-    angular.module("app-home", ["ngRoute"])
+    angular.module("app-home", ['ngMaterial','ngRoute'])
         .config(function ($routeProvider) {
             $routeProvider.when("/", {
                 controller: "homeController",
@@ -13,6 +13,11 @@
                 controller: "csController",
                 controllerAs: "vm",
                 templateUrl: "/views/csView.html"
+            });
+            $routeProvider.when("/add", {
+                controller: "addController",
+                controllerAs: "vm",
+                templateUrl: "/views/addView.html"
             });
 
             $routeProvider.otherwise({ redirectTo: "/" });

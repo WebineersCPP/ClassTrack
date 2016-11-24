@@ -10,16 +10,18 @@
 }
 
 
+/* homeView.html */
 .curriculum-sheets-container {
    padding: 20px;
 }
 
 .curriculum-sheet {
-    position: relative;
     margin: 10px;
     padding: 30px;
 }
 
+
+/* csView.html */
 .curriculum-sheet-detail {
     margin: 40px;
     padding: 20px;
@@ -62,7 +64,6 @@
     clear: both;
     margin: 0 0 20px 0;
 }
-
 #hcolor-container a.active {
     border: 2px solid black;
     color: black;
@@ -80,3 +81,10 @@
     background-color: #fb8447;
 }
 
+
+/* addView.html */
+.curriculum-sheet-form {
+    width: 70%;
+    margin: 40px auto;
+    text-align: left;
+}

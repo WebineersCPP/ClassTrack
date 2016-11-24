@@ -100,10 +100,6 @@ menu li.active {
     height: 100%;  
 }
 
-.error-message {
-    color: red;
-}
-
 .content {
     position: relative;
     top: 10%;
