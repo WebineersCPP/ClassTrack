@@ -2,6 +2,7 @@
 
 html, body {
     height: 100%;
+    line-height: 200%;
 }
 
 .center {
@@ -10,8 +11,26 @@ html, body {
     margin-right: auto;
 }
 
+.h-title {
+    font-family: 'Passion One', cursive;
+    text-transform: uppercase;
+    font-size: 5em;
+}
+
+/* center text horizontally/vertically */
+.center-text {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0 20%;
+}
+
 .m0 {
     margin: 0;
+}
+
+.mr-icon {
+    margin-right: 10px;
 }
 
 .p0 {
@@ -53,7 +72,7 @@ menu li.active {
 #username {
     padding: 30px;
     font-size: large;
-}    
+}   
 
 /* Arrow toggling sidebar */
 #sidebarToggle {
@@ -65,6 +84,7 @@ menu li.active {
     -webkit-transition: margin-left ease .25s;
     transition: margin-left ease .25s;
     position: fixed;
+    z-index: 999;
 }
 #sidebarToggle:hover, #sidebarToggle.move:hover {
     color: mediumseagreen;
@@ -98,6 +118,7 @@ menu li.active {
 .container-fluid {
     text-align: center;
     height: 100%;  
+    padding: 0;
 }
 
 .content {
@@ -105,8 +126,58 @@ menu li.active {
     top: 10%;
 }
 
+/* Index section */
 #index {
-    background: url('../img/feather_wallpaper.jpg') no-repeat center center fixed;
-    background-size: cover;
+    background: url('../img/notepen_wallpaper.jpg') no-repeat center center fixed;
+    display: table;
     height: 100%;
+    width: 100%;
+    position: relative;
+    background-size: cover;
 }
+#index h1 {
+    color: white;
+    text-shadow: 0 0 6px #000;
+}
+#index h3 {
+    font-size: 1.5em;
+    color: #fff;
+    margin: 20px;
+    padding: 0;
+    text-shadow: 0 0 6px #000; 
+}
+
+/* About section */
+#cover {
+    background: url('../img/studying_wallpaper.jpg') no-repeat center center fixed;
+    display: table;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    background-size: cover;
+}
+#about .text-content {
+    padding: 40px 15%;
+    margin: 10px;
+}
+
+.section-title {
+    margin-bottom: 50px;
+    font-weight: bold;
+}
+
+#about-section {
+    padding: 40px;
+}
+
+#features {
+    background-color: #2c3e50;
+    padding: 50px;
+    margin: 20px 0;
+    color: #fff;
+}
+
+#footer {
+    padding-bottom: 20px;
+}
+

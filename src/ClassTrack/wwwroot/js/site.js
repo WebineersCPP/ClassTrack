@@ -2,6 +2,7 @@
 
 (function () {
 
+    // Animation for Sidebar Toggling
     var $sidebarAndWrapper = $("#sidebar, #wrapper");
     var $icon = $("#sidebarToggle i.fa");
     var $toggle = $("#sidebarToggle");
@@ -19,5 +20,16 @@
         }
     });
 
+    // Initialize and Configure Scroll Reveal Animation
+    window.sr = ScrollReveal();
+    sr.reveal('.sr-img', {
+        duration: 1000,
+        delay: 200
+    });
+    sr.reveal('.sr-icons', {
+        duration: 600,
+        scale: 0.3,
+        distance: '0px'
+    }, 200);    
 
 })();
