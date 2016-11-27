@@ -49,10 +49,10 @@ namespace ClassTrack.Controllers.Api
             {
                 // Services
                 HTMLToCurriculumSheetService htmlParser = new HTMLToCurriculumSheetService();
-                // UrlRetriever Service
+                // TODO: UrlRetriever Service
 
                 string url = "https://catalog.cpp.edu/preview_program.php?catoid=10&poid=2715&returnto=1210";
-                // urRetriever.getUrl(cs.year, cs.major, cs.subplan);
+                // TODO: urRetriever.getUrl(cs.year, cs.major, cs.subplan);
 
                 // Create curriculum sheet from school's website based on user's input 
                 CurriculumSheet sheet = await htmlParser.getCurriculumSheet(url);

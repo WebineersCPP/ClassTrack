@@ -23,11 +23,19 @@ namespace ClassTrack.Repositories
         {
             if (username != null)   
             {
-                return _context.CurriculumSheets
+                CurriculumSheet sheet = _context.CurriculumSheets
                            .Where(cs => cs.UserName == username && cs.Id == id)
                            .Include(cs => cs.Modules)
                            .ThenInclude(m => m.Items)
                            .FirstOrDefault();
+
+                // Sort items by course number
+                foreach (var m in sheet.Modules)
+                {
+                    List<Item> list = m.Items.OrderBy(i => i.Number).ToList();
+                    m.Items = list;
+                }
+                return sheet;
             }
             return null;
         }
@@ -47,7 +55,6 @@ namespace ClassTrack.Repositories
             {
                 _context.CurriculumSheets.Add(cs);
                 _context.SaveChanges();
-
                 return cs;
             }
             catch (Exception ex)
