@@ -43,7 +43,7 @@ namespace ClassTrack
             
             services.AddScoped<IClassTrackRepository, ClassTrackRepository>();
 
-            services.AddTransient<GeoCoordsService>();
+            services.AddTransient<HTMLToCurriculumSheetService>();
 
             services.AddIdentity<ClassTrackUser, IdentityRole>(config =>
             {

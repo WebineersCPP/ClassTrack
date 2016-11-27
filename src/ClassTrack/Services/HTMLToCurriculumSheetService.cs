@@ -19,10 +19,10 @@ namespace ClassTrack.Services
         static Stack<Module> tempModules = new Stack<Module>();
         static Stack<Module> modules = new Stack<Module>();
 
-        static List<Module> modulesList = new List<Module>();
-        static CurriculumSheet cs = new CurriculumSheet();
+        List<Module> modulesList = new List<Module>();
+        CurriculumSheet cs = new CurriculumSheet();
 
-        static List<Item> courseList;
+        List<Item> courseList;
         static bool listOpen = false;
 
         public string catalogLink { get; set; }
