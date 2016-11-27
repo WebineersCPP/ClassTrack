@@ -1,18 +1,8 @@
 {
   "ConnectionStrings": {
     //"ClassTrackContextConnection": "Server=localhost\\SQLEXPRESS;Database=master;Trusted_Connection=True;MultipleActiveResultSets=true;",
-<<<<<<< HEAD
-    "ClassTrackContextConnection": "Server=tcp:classtrack-db.database.windows.net,1433;Initial Catalog=ClassTrack_db;Persist Security Info=False;User ID=istodart;Password=Classtrack16;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
-    "Keys": {
-      // Don't put keys in source control, like done below. Or in 'Properties' of project. If you are going to
-      // check in often code that changes, you wouldn't want to put it directly in code until is live.
-      // You could set environmental variables in windows Machine instead
-      // Var name: Keys__BingKey, var value: below
-      "BingKey": "qvSp2qcX1fMq3mcgYLoy~I-TgM0g96KOjr07gCwKi8g~AsPATaeXgynHNybCSmVk7CkvxjtwjuV5436G1OaeTCyE4E7nyNOQnf31fnm8mCji"
-    }
-=======
     //"ClassTrackContextConnection": "Server=classtrack-db.database.windows.net;Database=ClassTrackDb;Trusted_Connection=true;MultipleActiveResultSets=true;",
-   // "ClassTrackContextConnection": "Server=(localdb)\\MSSQLLocalDb;Database=ClassTrackDb;Trusted_Connection=true;MultipleActiveResultSets=true;"
-//>>>>>>> 8b0daa5deb4e24df53f65a8ced4a6e76a9436344
+    //"ClassTrackContextConnection": "Server=(localdb)\\MSSQLLocalDb;Database=ClassTrackDb;Trusted_Connection=true;MultipleActiveResultSets=true;"
+    "ClassTrackContextConnection": "Server=tcp:classtrack-db.database.windows.net,1433;Initial Catalog=ClassTrack_db;Persist Security Info=False;User ID=istodart;Password=Classtrack16;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
   }
-}
+}s
