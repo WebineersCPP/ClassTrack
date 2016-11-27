@@ -24,7 +24,7 @@ namespace ClassTrack.Controllers.Api
         }
 
         [HttpGet]
-        public IActionResult GetCurriculumSheet()
+        public IActionResult GetCurriculumSheets()
         {
             var results = _repository.GetAllCurriculumSheets(this.User.Identity.Name);
             return Ok(results);
@@ -53,7 +53,7 @@ namespace ClassTrack.Controllers.Api
                 _htmlParser = new HTMLToCurriculumSheetService();
                 // TODO: UrlRetriever Service
 
-                string url = "https://catalog.cpp.edu/preview_program.php?catoid=10&poid=2715&returnto=1210";
+                string url = "https://catalog.cpp.edu/preview_program.php?catoid=10&poid=2666&returnto=1209";
                 // TODO: urRetriever.getUrl(cs.year, cs.major, cs.subplan);
 
                 // Create curriculum sheet from school's website based on user's input 

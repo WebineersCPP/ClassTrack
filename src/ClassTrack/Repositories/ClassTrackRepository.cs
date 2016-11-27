@@ -44,8 +44,6 @@ namespace ClassTrack.Repositories
         {
             return _context.CurriculumSheets
                            .Where(cs => cs.UserName == username)
-                           .Include(cs => cs.Modules)
-                           .ThenInclude(m => m.Items)
                            .ToList();
         }
 
