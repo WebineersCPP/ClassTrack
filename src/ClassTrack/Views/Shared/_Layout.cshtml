@@ -23,17 +23,17 @@
             {
                 <li id="username">Hello, there!</li>
             }
-            <li><a asp-controller="App" asp-action="Index"><i class="fa fa-home mr-icon" aria-hidden="true"></i>Index</a></li>
-            <li><a asp-controller="App" asp-action="About"><i class="fa fa-ellipsis-h mr-icon" aria-hidden="true"></i>About ClassTrack</a></li>
-            <li><a asp-controller="App" asp-action="Contact"><i class="fa fa-users mr-icon" aria-hidden="true"></i>Meet the Devs</a></li>
+            <li><a asp-controller="App" asp-action="Index"><i class="fa fa-home m-icon" aria-hidden="true"></i>Index</a></li>
+            <li><a asp-controller="App" asp-action="About"><i class="fa fa-ellipsis-h m-icon" aria-hidden="true"></i>About ClassTrack</a></li>
+            <li><a asp-controller="App" asp-action="Contact"><i class="fa fa-users m-icon" aria-hidden="true"></i>Meet the Devs</a></li>
             @if (User.Identity.IsAuthenticated)
             {
-                <li><a asp-controller="App" asp-action="Home"><i class="fa fa-book mr-icon" aria-hidden="true"></i>My Curriculum Sheets</a></li>
-                <li><a asp-controller="Auth" asp-action="Logout"><i class="fa fa-sign-out mr-icon" aria-hidden="true"></i>Logout</a></li>
+                <li><a asp-controller="App" asp-action="Home"><i class="fa fa-book m-icon" aria-hidden="true"></i>My Curriculum Sheets</a></li>
+                <li><a asp-controller="Auth" asp-action="Logout"><i class="fa fa-sign-out m-icon" aria-hidden="true"></i>Logout</a></li>
             }
             else
             {
-                <li> <a asp-controller="Auth" asp-action="Login"><i class="fa fa-sign-in mr-icon" aria-hidden="true"></i>Login</a></li>
+                <li> <a asp-controller="Auth" asp-action="Login"><i class="fa fa-sign-in m-icon" aria-hidden="true"></i>Login</a></li>
             }
         </ul>
     </div>

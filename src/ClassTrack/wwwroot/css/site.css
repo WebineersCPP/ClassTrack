@@ -5,6 +5,11 @@ html, body {
     line-height: 200%;
 }
 
+a:hover {
+    color:#2a2c36;
+    text-decoration: none;
+}
+
 .center {
     display: block;
     margin-left: auto;
@@ -29,8 +34,9 @@ html, body {
     margin: 0;
 }
 
-.mr-icon {
-    margin-right: 10px;
+.m-icon {
+    margin-right: 5px;
+    margin-left: 5px;
 }
 
 .p0 {
@@ -181,3 +187,7 @@ menu li.active {
     padding-bottom: 20px;
 }
 
+/* Contact section */
+#contact #team {
+    margin: 80px 0;
+}
