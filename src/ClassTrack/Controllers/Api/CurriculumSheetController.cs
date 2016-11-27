@@ -14,11 +14,13 @@ namespace ClassTrack.Controllers.Api
     [Route("/api/curriculum-sheet")]
     public class CurriculumSheetController : Controller
     {
+        private HTMLToCurriculumSheetService _htmlParser;
         private IClassTrackRepository _repository;
 
-        public CurriculumSheetController(IClassTrackRepository repository)
+        public CurriculumSheetController(IClassTrackRepository repository, HTMLToCurriculumSheetService htmlParser)
         {
             _repository = repository;
+            _htmlParser = htmlParser;
         }
 
         [HttpGet]
@@ -48,14 +50,14 @@ namespace ClassTrack.Controllers.Api
             try
             {
                 // Services
-                HTMLToCurriculumSheetService htmlParser = new HTMLToCurriculumSheetService();
+                _htmlParser = new HTMLToCurriculumSheetService();
                 // TODO: UrlRetriever Service
 
                 string url = "https://catalog.cpp.edu/preview_program.php?catoid=10&poid=2715&returnto=1210";
                 // TODO: urRetriever.getUrl(cs.year, cs.major, cs.subplan);
 
                 // Create curriculum sheet from school's website based on user's input 
-                CurriculumSheet sheet = await htmlParser.getCurriculumSheet(url);
+                CurriculumSheet sheet = await _htmlParser.getCurriculumSheet(url);
                 sheet.UserName = this.User.Identity.Name;
 
                 var result = _repository.PostCurriculumSheet(sheet);
