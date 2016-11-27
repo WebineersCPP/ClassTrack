@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
-using System.Net.Http;
 using ClassTrack.Models;
-using System.Net;
-using System.Xml;
+
 using System.Text.RegularExpressions;
-//using System.Web.Http;
 
 namespace ClassTrack.Services
 {

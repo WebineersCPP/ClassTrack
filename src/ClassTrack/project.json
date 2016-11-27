@@ -21,8 +21,7 @@
     "HtmlAgilityPack": "1.4.9.5",
     "AutoMapper": "4.2.1",
     "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0",
-    "Microsoft.AspNetCore.Mvc.WebApiCompatShim": "1.0.1",
-    "system.xml.xpath.xmldocument": "4.0.0"
+    "Microsoft.AspNetCore.Mvc.WebApiCompatShim": "1.0.1"
   },
 
   "tools": {
