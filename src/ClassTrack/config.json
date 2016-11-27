@@ -12,7 +12,7 @@
     }
 =======
     //"ClassTrackContextConnection": "Server=classtrack-db.database.windows.net;Database=ClassTrackDb;Trusted_Connection=true;MultipleActiveResultSets=true;",
-    "ClassTrackContextConnection": "Server=(localdb)\\MSSQLLocalDb;Database=ClassTrackDb;Trusted_Connection=true;MultipleActiveResultSets=true;"
->>>>>>> 8b0daa5deb4e24df53f65a8ced4a6e76a9436344
+   // "ClassTrackContextConnection": "Server=(localdb)\\MSSQLLocalDb;Database=ClassTrackDb;Trusted_Connection=true;MultipleActiveResultSets=true;"
+//>>>>>>> 8b0daa5deb4e24df53f65a8ced4a6e76a9436344
   }
 }
