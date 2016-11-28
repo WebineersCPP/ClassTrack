@@ -1,109 +1,513 @@
-﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Net.Http;
-using ClassTrack.Models;
-using System.Net;
-using HtmlAgilityPack;
-using System.IO;
-using System.Text;
-using System.Collections;
 
 namespace ClassTrack.Services
 {
     public class FetchCatalogURLService
     {
-        private Dictionary<string, string> catalogYears = new Dictionary<string, string>
+        private static Dictionary<string, string> Year_2012 = new Dictionary<string, string>
         {
-            { "2012", "4" },
-            { "2013", "5" },
-            { "2014", "9" },
-            { "2015", "8" },
-            { "2016", "10"}
+            { "Communications/Journalism","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=906&returnto=743"},
+            { "Communications/Organizational Communication","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=907&returnto=743"},
+            { "Communications/Public Relations", "http://catalog.cpp.edu/preview_program.php?catoid=4&poid=908&returnto=743"},
+            { "Economics","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=912&returnto=743"},
+            { "English/English Education","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=917&returnto=743" },
+            { "English/Literature and Language","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=918&returnto=743"},
+            { "Spanish","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=919&returnto=743" },
+            { "Anthropology/Cultural Resource Management", "http://catalog.cpp.edu/preview_program.php?catoid=4&poid=927&returnto=743" },
+            { "Anthropology/General","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=928&returnto=743"},
+            { "Geography/Environmental Geography","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=929&returnto=743"},
+            { "Geography/Geographic Information Systems","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=930&returnto=743" },
+            { "Geography/Geography","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=931&returnto=743"},
+            { "Social Sciences","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=932&returnto=743"},
+            { "History", "http://catalog.cpp.edu/preview_program.php?catoid=4&poid=935&returnto=743" },
+            { "History/Pre-Credential","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=936&returnto=743"},
+            { "Music/Music Education","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=777&returnto=743"},
+            { "Music/Music Industry Studies","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=940&returnto=743"},
+            { "Music/Preformance Emphasis","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=1003&returnto=743"},
+            { "Philosophy","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=942&returnto=743"},
+            { "Philosophy/Law and Society","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=943&returnto=743"},
+            { "Political Science","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=946&returnto=743"},
+            { "Psychology","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=948&returnto=743"},
+            { "Sociology/Criminology","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=949&returnto=743"},
+            { "Sociology/General Sociology","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=950&returnto=743"},
+            { "Sociology/Social Work","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=951&returnto=743"},
+            { "Theatre/Acting","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=955&returnto=743"},
+            { "Theatre/Dance","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=956&returnto=743"},
+            { "Theatre/Education and Community","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=957&returnto=743"},
+            { "Theatre/General Theatre","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=958&returnto=743"},
+            { "Animal Health Science","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=790&returnto=740"},
+            { "Animal Science/Animal Industries Management","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=791&returnto=740"},
+            { "Animal Science/Pre-Veterinary Science/Graduate School","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=792&returnto=740"},
+            { "Apparel Merchandising Management/Apparel Production","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=795&returnto=740"},
+            { "Apparel Merchandising Management/Fashion Retailing","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=796&returnto=740"},
+            { "Agribusiness and Food Industry Management","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=788&returnto=740"},
+            { "Agricultural Science","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=789&returnto=740"},
+            { "Food Science and Technology","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=798&returnto=740" },
+            { "Foods and Nutrition/Dietetics","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=799&returnto=740" },
+            { "Foods and Nutrition/Nutrition Science","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=800&returnto=740" },
+            { "Plant Science","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=806&returnto=740" },
+            { "Business Administration/Accounting","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=816&returnto=775" },
+            { "Business Administration/Computer Information Systems","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=819&returnto=775" },
+            { "Business Administration/Finance, Real Estate, and Law","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=822&returnto=775" },
+            { "Business Administration/International Business","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=827&returnto=775" },
+            { "Business Administration/Marketing Management","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=828&returnto=775" },
+            { "Business Administration/Management and Human Resources","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=831&returnto=775" },
+            { "Business Administration/E-Business","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=835&returnto=775" },
+            { "Business Administration/Technology and Operations Management","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=836&returnto=775" },
+            { "Gender, Ethnicity, and Multicultural Studies/BA/Credential","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=855&returnto=732" },
+            { "Gender, Ethnicity, and Multicultural Studies/GEMS","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=853&returnto=732" },
+            { "Gender, Ethnicity, and Multicultural Studies/Integrated BA","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=854&returnto=732" },
+            { "Gender, Ethnicity, and Multicultural Studies/Integrated Bilingual Authorization BA","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=856&returnto=732" },
+            { "Liberal Studies/BA/Credential","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=864&returnto=732" },
+            { "Liberal Studies/Bilingual Authorization BA/Credential","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=866&returnto=732" },
+            { "Liberal Studies/Bilingual Authorization BA/Pre-Credential","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=865&returnto=732" },
+            { "Liberal Studies/General Studies","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=867&returnto=732" },
+            { "Liberal Studies/Pre-Credential","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=868&returnto=732" },
+            { "Aerospace Engineering","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=869&returnto=741" },
+            { "Chemical Engineering","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=871&returnto=741" },
+            { "Civil Engineering/Environmental Engineering","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=872&returnto=741" },
+            { "Civil Engineering/General Civil Engineering","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=873&returnto=741" },
+            { "Civil Engineering/Geospatial Engineering","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=874&returnto=741" },
+            { "Computer Engineering","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=876&returnto=741" },
+            { "Electrical Engineering","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=877&returnto=741" },
+            { "Construction Engineering Technology","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=881&returnto=741" },
+            { "Electronics and Computer Engineering Technology","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=882&returnto=741" },
+            { "Engineering Technology","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=883&returnto=741" },
+            { "Industrial Engineering","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=884&returnto=741" },
+            { "Manufacturing Engineering","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=885&returnto=741" },
+            { "Mechanical Engineering","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=887&returnto=741" },
+            { "Architechture","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=893&returnto=742" },
+            { "Art/Art History","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=896&returnto=742" },
+            { "Art/Fine Arts","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=897&returnto=742" },
+            { "Graphic Design","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=898&returnto=742" },
+            { "Landscape Architechture","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=900&returnto=742" },
+            { "Urban and Regional Planning","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=902&returnto=742" },
+            { "Biology/Botany","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=964&returnto=744" },
+            { "Biology/General Biology","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=965&returnto=744" },
+            { "Biology/Microbiology","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=966&returnto=744" },
+            { "Biology/Zoology","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=967&returnto=744" },
+            { "Biotechnology","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=968&returnto=744" },
+            { "Environmental Biology","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=969&returnto=744" },
+            { "Chemistry/Biochemistry","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=977&returnto=744" },
+            { "Chemistry/Chemistry","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=978&returnto=744" },
+            { "Chemistry/Industrial Chemistry","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=979&returnto=744" },
+            { "Chemistry/Molecular Modeling and Simulation","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=980&returnto=744" },
+            { "Computer Science","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=983&returnto=744" },
+            { "Geology","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=986&returnto=744" },
+            { "Kinesiology/Exercise Science","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=988&returnto=744" },
+            { "Kinesiology/Health Promotion","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=989&returnto=744" },
+            { "Kinesiology/Pedagogy","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=990&returnto=744" },
+            { "Mathematics/Applied Mathematics/Statistics","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=992&returnto=744" },
+            { "Mathematics/Pure Mathematics/Secondary Teacher Prep","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=993&returnto=744" },
+            { "Physics","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=997&returnto=744" },
+            { "Hospitality Management","http://catalog.cpp.edu/preview_program.php?catoid=4&poid=1001&returnto=745" }
         };
 
-        private Dictionary<string, string> colleges = new Dictionary<string, string>
+        private static Dictionary<string, string> Year_2013 = new Dictionary<string, string>
         {
-            { "CLASS", "College of Letters, Arts, and Social Sciences" },
-            { "AG", "College of Agriculture" },
-            { "BUS", "College of Business Administration" },
-            { "CEIS", "College of Education and Integrative Studies" },
-            { "ENG", "College of Engineering"},
-            { "ENV", "College of Environmental Design" },
-            { "SCI", "College of Science" },
-            { "HRT", "The Collins College of Hospitality Management" }
+            { "Communications/Journalism","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1145&returnto=817"},
+            { "Communications/Organizational Communication","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1146&returnto=817"},
+            { "Communications/Public Relations", "http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1147&returnto=817"},
+            { "Economics","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1151&returnto=817"},
+            { "English/English Education","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1156&returnto=817" },
+            { "English/Literature and Language","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1157&returnto=817"},
+            { "Spanish","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1158&returnto=817" },
+            { "Anthropology/Cultural Resource Management", "http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1166&returnto=817" },
+            { "Anthropology/General Anthropology","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1167&returnto=817"},
+            { "Geography/Environmental Geography","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1168&returnto=817"},
+            { "Geography/Geographic Information Systems","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1169&returnto=817" },
+            { "Geography/Geography","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1170&returnto=817"},
+            { "Social Sciences","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1171&returnto=817"},
+            { "History", "http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1174&returnto=817" },
+            { "History/Pre-Credential","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1175&returnto=817"},
+            { "Music/Music Education","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1016&returnto=817"},
+            { "Music/Music Industry Studies","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1179&returnto=817"},
+            { "Music/Preformance Emphasis","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1242&returnto=817"},
+            { "Philosophy","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1181&returnto=817"},
+            { "Philosophy/Law and Society","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1182&returnto=817"},
+            { "Political Science","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1185&returnto=817"},
+            { "Psychology","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1187&returnto=817"},
+            { "Sociology/Criminology","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1188&returnto=817"},
+            { "Sociology/General Sociology","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1189&returnto=817"},
+            { "Sociology/Social Work","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1190&returnto=817"},
+            { "Theatre/Acting","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1194&returnto=817"},
+            { "Theatre/Dance","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1195&returnto=817"},
+            { "Theatre/Education and Community","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1196&returnto=817"},
+            { "Theatre/General Theatre","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1197&returnto=817"},
+            { "Theatre/Technical Theatre and Design","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1198&returnto=817"},
+            { "Animal Health Science","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1029&returnto=814"},
+            { "Animal Science/Animal Industries Management","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1030&returnto=814"},
+            { "Animal Science/Pre-Veterinary Science/Graduate School","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1031&returnto=814"},
+            { "Apparel Merchandising Management/Apparel Production","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1034&returnto=814"},
+            { "Apparel Merchandising Management/Fashion Retailing","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1035&returnto=814"},
+            { "Agribusiness and Food Industry Management","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1027&returnto=814"},
+            { "Agricultural Science","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1028&returnto=814"},
+            { "Food Science and Technology","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1037&returnto=814" },
+            { "Foods and Nutrition/Dietetics","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1038&returnto=814" },
+            { "Foods and Nutrition/Nutrition Science","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1039&returnto=814" },
+            { "Plant Science","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1045&returnto=814" },
+            { "Business Administration/Accounting","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1055&returnto=841" },
+            { "Business Administration/Computer Information Systems","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1058&returnto=841" },
+            { "Business Administration/Finance, Real Estate, and Law","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1061&returnto=841" },
+            { "Business Administration/International Business","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1066&returnto=841" },
+            { "Business Administration/Marketing Management","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1067&returnto=841" },
+            { "Business Administration/Management and Human Resources","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1070&returnto=841" },
+            { "Business Administration/E-Business","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1074&returnto=841" },
+            { "Business Administration/Technology and Operations Management","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1075&returnto=841" },
+            { "Gender, Ethnicity, and Multicultural Studies/GEMS Pre-Credential","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1094&returnto=797" },
+            { "Gender, Ethnicity, and Multicultural Studies/GEMS","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1092&returnto=797" },
+            { "Gender, Ethnicity, and Multicultural Studies/Integrated BA/Credential","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1093&returnto=797" },
+            { "Gender, Ethnicity, and Multicultural Studies/Integrated Bilingual Authorization BA/Credential","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1095&returnto=797" },
+            { "Liberal Studies/BA/Credential","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1103&returnto=797" },
+            { "Liberal Studies/Bilingual Authorization BA/Credential","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1105&returnto=797" },
+            { "Liberal Studies/Bilingual Authorization BA/Pre-Credential","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1104&returnto=797" },
+            { "Liberal Studies/General Studies","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1106&returnto=797" },
+            { "Liberal Studies/Pre-Credential","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1107&returnto=797" },
+            { "Aerospace Engineering","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1108&returnto=815" },
+            { "Chemical Engineering","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1110&returnto=815" },
+            { "Civil Engineering/Environmental Engineering","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1111&returnto=815" },
+            { "Civil Engineering/General Civil Engineering","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1112&returnto=815" },
+            { "Civil Engineering/Geospatial Engineering","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1113&returnto=815" },
+            { "Computer Engineering","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1115&returnto=815" },
+            { "Electrical Engineering","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1116&returnto=815" },
+            { "Construction Engineering Technology","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1120&returnto=815" },
+            { "Electronics and Computer Engineering Technology","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1121&returnto=815" },
+            { "Engineering Technology","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1122&returnto=815" },
+            { "Industrial Engineering","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1123&returnto=815" },
+            { "Manufacturing Engineering","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1124&returnto=815" },
+            { "Mechanical Engineering","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1126&returnto=815" },
+            { "Architechture","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1132&returnto=816" },
+            { "Art History","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1135&returnto=816" },
+            { "Graphic Design","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1137&returnto=816" },
+            { "Landscape Architechture","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1139&returnto=816" },
+            { "Urban and Regional Planning","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1141&returnto=816" },
+            { "Biology/Botany","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1203&returnto=818" },
+            { "Biology/General Biology","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1204&returnto=818" },
+            { "Biology/Microbiology","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1205&returnto=818" },
+            { "Biology/Zoology","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1206&returnto=818" },
+            { "Biotechnology","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1207&returnto=818" },
+            { "Environmental Biology","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1208&returnto=818" },
+            { "Chemistry/Biochemistry","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1216&returnto=818" },
+            { "Chemistry/Chemistry","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1217&returnto=818" },
+            { "Chemistry/Industrial Chemistry","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1218&returnto=818" },
+            { "Chemistry/Molecular Modeling and Simulation","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1219&returnto=818" },
+            { "Computer Science","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1222&returnto=818" },
+            { "Geology","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1225&returnto=818" },
+            { "Kinesiology/Exercise Science","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1227&returnto=818" },
+            { "Kinesiology/Health Promotion","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1228&returnto=818" },
+            { "Kinesiology/Pedagogy","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1229&returnto=818" },
+            { "Mathematics/Applied Mathematics/Statistics","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1231&returnto=818" },
+            { "Mathematics/Secondary Teacher Prep/Pure Mathematics","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1232&returnto=818" },
+            { "Physics","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1236&returnto=818" },
+            { "Hospitality Management","http://catalog.cpp.edu/preview_program.php?catoid=5&poid=1240&returnto=819" }
+        };
+        private static Dictionary<string, string> Year_2014 = new Dictionary<string, string>
+        {
+            { "Communications/Journalism","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2388&returnto=1135"},
+            { "Communications/Organizational Communication","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2389&returnto=1135"},
+            { "Communications/Public Relations", "http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2390&returnto=1135"},
+            { "Economics","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2394&returnto=1135"},
+            { "English/English Education","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2398&returnto=1135" },
+            { "English/Literature and Language","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2399&returnto=1135"},
+            { "Spanish","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2400&returnto=1135" },
+            { "Anthropology/Cultural Resource Management", "http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2408&returnto=1135" },
+            { "Anthropology/General Anthropology","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2409&returnto=1135"},
+            { "Geography/Environmental Geography","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2410&returnto=1135"},
+            { "Geography/Geographic Information Systems","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2411&returnto=1135" },
+            { "Geography/Geography","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2412&returnto=1135"},
+            { "History", "http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2415&returnto=1135" },
+            { "History/Pre-Credential","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2416&returnto=1135"},
+            { "Music/Music Education","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2263&returnto=1135"},
+            { "Music/Music Industry Studies","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2420&returnto=1135"},
+            { "Music/Preformance Emphasis","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2481&returnto=1135"},
+            { "Philosophy","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2422&returnto=1135"},
+            { "Philosophy/Law and Society","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2423&returnto=1135"},
+            { "Political Science","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2426&returnto=1135"},
+            { "Psychology","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2428&returnto=1135"},
+            { "Sociology/Criminology","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2429&returnto=1135"},
+            { "Sociology/General Sociology","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2430&returnto=1135"},
+            { "Sociology/Social Work","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2431&returnto=1135"},
+            { "Theatre/Acting","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2435&returnto=1135"},
+            { "Theatre/Dance","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2436&returnto=1135"},
+            { "Theatre/Education and Community","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2437&returnto=1135"},
+            { "Theatre/General Theatre","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2438&returnto=1135"},
+            { "Theatre/Technical Theatre and Design","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2439&returnto=1135"},
+            { "Animal Health Science","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2275&returnto=1126"},
+            { "Animal Science/Animal Industries Management","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2276&returnto=1126"},
+            { "Animal Science/Pre-Veterinary Science/Graduate School","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2277&returnto=1126"},
+            { "Apparel Merchandising Management/Apparel Production","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2280&returnto=1126"},
+            { "Apparel Merchandising Management/Fashion Retailing","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2281&returnto=1126"},
+            { "Agribusiness and Food Industry Management","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2273&returnto=1126"},
+            { "Agricultural Science","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2274&returnto=1126"},
+            { "Food Science and Technology","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2283&returnto=1126" },
+            { "Foods and Nutrition/Dietetics","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2284&returnto=1126" },
+            { "Foods and Nutrition/Nutrition Science","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2285&returnto=1126" },
+            { "Plant Science","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2291&returnto=1126" },
+            { "Business Administration/Accounting","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2301&returnto=1159" },
+            { "Business Administration/Computer Information Systems","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2304&returnto=1159" },
+            { "Business Administration/Finance, Real Estate, and Law","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2307&returnto=1159" },
+            { "Business Administration/International Business","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2312&returnto=1159" },
+            { "Business Administration/Marketing Management","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2313&returnto=1159" },
+            { "Business Administration/Management and Human Resources","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2316&returnto=1159" },
+            { "Business Administration/E-Business","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2320&returnto=1159" },
+            { "Business Administration/Technology and Operations Management","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2321&returnto=1159" },
+            { "Gender, Ethnicity, and Multicultural Studies/GEMS","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2338&returnto=1131" },
+            { "Gender, Ethnicity, and Multicultural Studies/Pre-Credential","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2339&returnto=1131" },
+            { "Liberal Studies/BA/Credential","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2347&returnto=1131" },
+            { "Liberal Studies/Bilingual Authorization BA/Credential","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2349&returnto=1131" },
+            { "Liberal Studies/Bilingual Authorization BA Pre-Credential","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2348&returnto=1131" },
+            { "Liberal Studies/General Studies","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2350&returnto=1131" },
+            { "Liberal Studies/Pre-Credential","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2351&returnto=1131" },
+            { "Aerospace Engineering","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2352&returnto=1133" },
+            { "Chemical Engineering","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2354&returnto=1133" },
+            { "Civil Engineering/Environmental Engineering","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2355&returnto=1133" },
+            { "Civil Engineering/General Civil Engineering","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2356&returnto=1133" },
+            { "Civil Engineering/Geospatial Engineering","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2357&returnto=1133" },
+            { "Computer Engineering","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2359&returnto=1133" },
+            { "Electrical Engineering","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2360&returnto=1133" },
+            { "Construction Engineering Technology","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2364&returnto=1133" },
+            { "Electronics and Computer Engineering Technology","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2365&returnto=1133" },
+            { "Engineering Technology","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2366&returnto=1133" },
+            { "Industrial Engineering","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2367&returnto=1133" },
+            { "Manufacturing Engineering","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2368&returnto=1133" },
+            { "Mechanical Engineering","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2370&returnto=1133" },
+            { "Architechture","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2376&returnto=1134" },
+            { "Art History","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2379&returnto=1134" },
+            { "Graphic Design","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2380&returnto=1134" },
+            { "Landscape Architechture","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2382&returnto=1134" },
+            { "Urban and Regional Planning","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2384&returnto=1134" },
+            { "Biology/Botany","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2444&returnto=1136" },
+            { "Biology/General Biology","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2445&returnto=1136" },
+            { "Biology/Microbiology","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2446&returnto=1136" },
+            { "Biology/Zoology","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2447&returnto=1136" },
+            { "Biotechnology","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2448&returnto=1136" },
+            { "Environmental Biology","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2449&returnto=1136" },
+            { "Chemistry/Biochemistry","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2455&returnto=1136" },
+            { "Chemistry/Chemistry","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2456&returnto=1136" },
+            { "Chemistry/Industrial Chemistry","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2457&returnto=1136" },
+            { "Chemistry/Molecular Modeling and Simulation","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2458&returnto=1136" },
+            { "Computer Science","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2461&returnto=1136" },
+            { "Geology","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2464&returnto=1136" },
+            { "Kinesiology/Exercise Science","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2466&returnto=1136" },
+            { "Kinesiology/Health Promotion","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2467&returnto=1136" },
+            { "Kinesiology/Pedagogy","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2468&returnto=1136" },
+            { "Mathematics/Applied Mathematics/Statistics","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2470&returnto=1136" },
+            { "Mathematics/Secondary Teacher Prep/Pure Mathematics","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2471&returnto=1136" },
+            { "Physics","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2475&returnto=1136" },
+            { "Hospitality Management","http://catalog.cpp.edu/preview_program.php?catoid=9&poid=2479&returnto=1137" }
         };
 
-        public async Task<string> GetMajorPlanUrl(string major, string college, string year, string subplan = null)
-        { 
-            string catalog = await chooseCatalogYear(year);
-            string collegeURL = findCollegeURL(catalog, college);
-            string majorURL = findMajorURL(collegeURL, major);
-            return majorURL;
-        }
-
-        public string findMajorURL(string collegeURL, string major)
+        private static Dictionary<string, string> Year_2015 = new Dictionary<string, string>
         {
-            HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml(collegeURL);
-            var root = doc.DocumentNode;
-            var htmlNodes = root.Descendants();
-            //Find html node containing the major heading
-            foreach(HtmlNode node in htmlNodes)
+            { "Communications/Journalism","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2133&returnto=1101"},
+            { "Communications/Organizational Communication","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2134&returnto=1101"},
+            { "Communications/Public Relations", "http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2135&returnto=1101"},
+            { "Economics","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2139&returnto=1101"},
+            { "English/English Education","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2143&returnto=1101" },
+            { "English/Literature and Language","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2144&returnto=1101"},
+            { "Spanish","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2145&returnto=1101" },
+            { "Anthropology/Cultural Resource Management", "http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2153&returnto=1101" },
+            { "Anthropology/General Anthropology","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2154&returnto=1101"},
+            { "Geography/Environmental Geography","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2155&returnto=1101"},
+            { "Geography/Geographic Information Systems","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2156&returnto=1101" },
+            { "Geography/Geography","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2157&returnto=1101"},
+            { "History", "http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2160&returnto=1101" },
+            { "History/Pre-Credential","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2161&returnto=1101"},
+            { "Music/Music Education","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2008&returnto=1101"},
+            { "Music/Music Industry Studies","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2165&returnto=1101"},
+            { "Music/Preformance Emphasis","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2226&returnto=1101"},
+            { "Philosophy","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2167&returnto=1101"},
+            { "Philosophy/Law and Society","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2168&returnto=1101"},
+            { "Political Science","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2171&returnto=1101"},
+            { "Psychology","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2173&returnto=1101"},
+            { "Sociology/Criminology","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2174&returnto=1101"},
+            { "Sociology/General Sociology","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2175&returnto=1101"},
+            { "Sociology/Social Work","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2176&returnto=1101"},
+            { "Theatre/Acting","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2180&returnto=1101"},
+            { "Theatre/Dance","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2181&returnto=1101"},
+            { "Theatre/Education and Community","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2182&returnto=1101"},
+            { "Theatre/General Theatre","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2183&returnto=1101"},
+            { "Theatre/Technical Theatre and Design","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2184&returnto=1101"},
+            { "Animal Health Science","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2020&returnto=1096"},
+            { "Animal Science/Animal Industries Management","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2021&returnto=1096"},
+            { "Animal Science/Pre-Veterinary Science/Graduate School","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2022&returnto=1096"},
+            { "Apparel Merchandising Management/Apparel Production","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2025&returnto=1096"},
+            { "Apparel Merchandising Management/Fashion Retailing","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2026&returnto=1096"},
+            { "Agribusiness and Food Industry Management","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2018&returnto=1096"},
+            { "Agricultural Science","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2019&returnto=1096"},
+            { "Food Science and Technology","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2028&returnto=1096" },
+            { "Foods and Nutrition/Dietetics","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2029&returnto=1096" },
+            { "Foods and Nutrition/Nutrition Science","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2030&returnto=1096" },
+            { "Plant Science","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2036&returnto=1096" },
+            { "Business Administration/Accounting","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2046&returnto=1097" },
+            { "Business Administration/Computer Information Systems","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2049&returnto=1097" },
+            { "Business Administration/Finance, Real Estate, and Law","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2052&returnto=1097" },
+            { "Business Administration/International Business","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2057&returnto=1097" },
+            { "Business Administration/Marketing Management","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2058&returnto=1097" },
+            { "Business Administration/Management and Human Resources","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2061&returnto=1097" },
+            { "Business Administration/E-Business","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2065&returnto=1097" },
+            { "Business Administration/Technology and Operations Management","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2066&returnto=1097" },
+            { "Gender, Ethnicity, and Multicultural Studies/GEMS","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2083&returnto=1098" },
+            { "Gender, Ethnicity, and Multicultural Studies/Pre-Credential","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2084&returnto=1098" },
+            { "Liberal Studies/BA/Credential","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2092&returnto=1098" },
+            { "Liberal Studies/Bilingual Authorization BA/Credential","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2094&returnto=1098" },
+            { "Liberal Studies/Bilingual Authorization BA Pre-Credential","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2093&returnto=1098" },
+            { "Liberal Studies/General Studies","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2095&returnto=1098" },
+            { "Liberal Studies/Pre-Credential","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2096&returnto=1098" },
+            { "Aerospace Engineering","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2097&returnto=1099" },
+            { "Chemical Engineering","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2099&returnto=1099" },
+            { "Civil Engineering/Environmental Engineering","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2100&returnto=1099" },
+            { "Civil Engineering/General Civil Engineering","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2101&returnto=1099" },
+            { "Civil Engineering/Geospatial Engineering","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2102&returnto=1099" },
+            { "Computer Engineering","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2104&returnto=1099" },
+            { "Electrical Engineering","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2105&returnto=1099" },
+            { "Construction Engineering Technology","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2109&returnto=1099" },
+            { "Electronics and Computer Engineering Technology","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2110&returnto=1099" },
+            { "Engineering Technology","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2111&returnto=1099" },
+            { "Industrial Engineering","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2112&returnto=1099" },
+            { "Manufacturing Engineering","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2113&returnto=1099" },
+            { "Mechanical Engineering","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2115&returnto=1099" },
+            { "Architechture","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2121&returnto=1100" },
+            { "Art History","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2124&returnto=1100" },
+            { "Graphic Design","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2125&returnto=1100" },
+            { "Landscape Architechture","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2127&returnto=1100" },
+            { "Urban and Regional Planning","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2129&returnto=1100" },
+            { "Biology/Botany","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2189&returnto=1102" },
+            { "Biology/General Biology","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2190&returnto=1102" },
+            { "Biology/Microbiology","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2191&returnto=1102" },
+            { "Biology/Zoology","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2192&returnto=1102" },
+            { "Biotechnology","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2193&returnto=1102" },
+            { "Environmental Biology","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2194&returnto=1102" },
+            { "Chemistry/Biochemistry","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2200&returnto=1102" },
+            { "Chemistry/Chemistry","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2201&returnto=1102" },
+            { "Chemistry/Industrial Chemistry","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2202&returnto=1102" },
+            { "Computer Science","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2206&returnto=1102" },
+            { "Geology","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2209&returnto=1102" },
+            { "Kinesiology/Exercise Science","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2211&returnto=1102" },
+            { "Kinesiology/Health Promotion","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2212&returnto=1102" },
+            { "Kinesiology/Pedagogy","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2213&returnto=1102" },
+            { "Mathematics/Applied Mathematics/Statistics","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2215&returnto=1102" },
+            { "Mathematics/Secondary Teacher Prep/Pure Mathematics","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2216&returnto=1102" },
+            { "Physics","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2220&returnto=1102" },
+            { "Hospitality Management","http://catalog.cpp.edu/preview_program.php?catoid=8&poid=2224&returnto=1103" }
+        };
+
+        private static Dictionary<string, string> Year_2016 = new Dictionary<string, string>
+        {
+            { "Communications/Journalism","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2643&returnto=1209"},
+            { "Communications/Organizational Communication","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2644&returnto=1209"},
+            { "Communications/Public Relations", "http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2645&returnto=1209"},
+            { "Economics","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2649&returnto=1209"},
+            { "English/English Education","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2653&returnto=1209" },
+            { "English/Literature and Language","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2654&returnto=1209"},
+            { "Spanish","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2655&returnto=1209" },
+            { "Anthropology/Cultural Resource Management", "http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2663&returnto=1209" },
+            { "Anthropology/General Anthropology","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2664&returnto=1209"},
+            { "Geography/Environmental Geography","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2665&returnto=1209"},
+            { "Geography/Geographic Information Systems","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2666&returnto=1209" },
+            { "Geography/Geography","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2667&returnto=1209"},
+            { "History", "http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2670&returnto=1209" },
+            { "History/Pre-Credential","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2671&returnto=1209"},
+            { "Music/Music Education","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2520&returnto=1209"},
+            { "Music/Music Industry Studies","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2675&returnto=1209"},
+            { "Music/Preformance Emphasis","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2735&returnto=1209"},
+            { "Philosophy","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2677&returnto=1209"},
+            { "Philosophy/Law and Society","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2678&returnto=1209"},
+            { "Political Science","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2681&returnto=1209"},
+            { "Psychology","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2683&returnto=1209"},
+            { "Sociology/Criminology","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2684&returnto=1209"},
+            { "Sociology/General Sociology","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2685&returnto=1209"},
+            { "Sociology/Social Work","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2686&returnto=1209"},
+            { "Theatre/Acting","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2690&returnto=1209"},
+            { "Theatre/Dance","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2691&returnto=1209"},
+            { "Theatre/Education and Community","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2692&returnto=1209"},
+            { "Theatre/General Theatre","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2693&returnto=1209"},
+            { "Theatre/Technical Theatre and Design","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2694&returnto=1209"},
+            { "Animal Health Science","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2532&returnto=1204"},
+            { "Animal Science/Animal Industries Management","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2533&returnto=1204"},
+            { "Animal Science/Pre-Veterinary Science/Graduate School","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2534&returnto=1204"},
+            { "Apparel Merchandising Management/Apparel Production","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2537&returnto=1204"},
+            { "Apparel Merchandising Management/Fashion Retailing","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2538&returnto=1204"},
+            { "Agribusiness and Food Industry Management","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2530&returnto=1204"},
+            { "Agricultural Science","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2531&returnto=1204"},
+            { "Food Science and Technology","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2540&returnto=1204" },
+            { "Foods and Nutrition/Dietetics","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2541&returnto=1204" },
+            { "Foods and Nutrition/Nutrition Science","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2542&returnto=1204" },
+            { "Plant Science","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2548&returnto=1204" },
+            { "Business Administration/Accounting","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2558&returnto=1205" },
+            { "Business Administration/Computer Information Systems","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2561&returnto=1205" },
+            { "Business Administration/Finance, Real Estate, and Law","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2562&returnto=1205" },
+            { "Business Administration/International Business","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2567&returnto=1205" },
+            { "Business Administration/Marketing Management","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2568&returnto=1205" },
+            { "Business Administration/Management and Human Resources","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2571&returnto=1205" },
+            { "Business Administration/E-Business","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2575&returnto=1205" },
+            { "Business Administration/Technology and Operations Management","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2576&returnto=1205" },
+            { "Gender, Ethnicity, and Multicultural Studies/GEMS","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2593&returnto=1206" },
+            { "Gender, Ethnicity, and Multicultural Studies/Pre-Credential","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2594&returnto=1206" },
+            { "Liberal Studies/BA/Credential","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2602&returnto=1206" },
+            { "Liberal Studies/Bilingual Authorization BA/Credential","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2604&returnto=1206" },
+            { "Liberal Studies/Bilingual Authorization BA Pre-Credential","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2603&returnto=1206" },
+            { "Liberal Studies/General Studies","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2605&returnto=1206" },
+            { "Liberal Studies/Pre-Credential","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2606&returnto=1206" },
+            { "Aerospace Engineering","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2607&returnto=1207" },
+            { "Chemical Engineering","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2609&returnto=1207" },
+            { "Civil Engineering/Environmental Engineering","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2610&returnto=1207" },
+            { "Civil Engineering/General Civil Engineering","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2611&returnto=1207" },
+            { "Civil Engineering/Geospatial Engineering","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2612&returnto=1207" },
+            { "Computer Engineering","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2614&returnto=1207" },
+            { "Electrical Engineering","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2615&returnto=1207" },
+            { "Construction Engineering Technology","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2619&returnto=1207" },
+            { "Electromechanical Systems Engineering Technology","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2621&returnto=1207" },
+            { "Electronic Systems Engineering Technology","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2620&returnto=1207" },
+            { "Industrial Engineering","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2622&returnto=1207" },
+            { "Manufacturing Engineering","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2623&returnto=1207" },
+            { "Mechanical Engineering","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2625&returnto=1207" },
+            { "Architechture","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2631&returnto=1208" },
+            { "Art History","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2634&returnto=1208" },
+            { "Graphic Design","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2635&returnto=1208" },
+            { "Landscape Architechture","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2637&returnto=1208" },
+            { "Urban and Regional Planning","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2639&returnto=1208" },
+            { "Biology/Botany","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2699&returnto=1210" },
+            { "Biology/General Biology","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2700&returnto=1210" },
+            { "Biology/Microbiology","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2701&returnto=1210" },
+            { "Biology/Zoology","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2702&returnto=1210" },
+            { "Biotechnology","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2703&returnto=1210" },
+            { "Environmental Biology","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2704&returnto=1210" },
+            { "Chemistry/Biochemistry","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2710&returnto=1210" },
+            { "Chemistry/Chemistry","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2711&returnto=1210" },
+            { "Chemistry/Industrial Chemistry","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2712&returnto=1210" },
+            { "Computer Science","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2715&returnto=1210" },
+            { "Geology","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2718&returnto=1210" },
+            { "Kinesiology/Exercise Science","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2720&returnto=1210" },
+            { "Kinesiology/Health Promotion","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2721&returnto=1210" },
+            { "Kinesiology/Pedagogy","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2722&returnto=1210" },
+            { "Mathematics/Applied Mathematics/Statistics","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2724&returnto=1210" },
+            { "Mathematics/Secondary Teacher Prep/Pure Mathematics","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2725&returnto=1210" },
+            { "Physics","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2729&returnto=1210" },
+            { "Hospitality Management","http://catalog.cpp.edu/preview_program.php?catoid=10&poid=2733&returnto=1211" }
+        };
+
+        Dictionary<int, Dictionary<string, string>> years = new Dictionary<int, Dictionary<string, string>>
+        {
+            { 2012, Year_2012},
+            { 2013, Year_2013},
+            { 2014, Year_2014},
+            { 2015, Year_2015},
+            { 2016, Year_2016}
+
+        };
+        public async Task<string> GetMajorPlanUrl(int year, string major, string subplan = null)
+        {
+            if(subplan == null)
             {
-                if (node.InnerText == major)
-                {
-                    HtmlNode target = node.NextSibling;
-                    List<string> links = target.Descendants("a").Select(a => a.Attributes["href"].Value).ToList();
-                    return links.First()+ "__IT WORKED__";
-                }
+                return years[year][major];
             }
-
-            
-            return "NoPE"; //+links.First().ToString();
-        }
-        
-        //Find correct web link for given college
-        public string findCollegeURL(string catalog, string college)
-        {
-            
-            //Load catalog HTML Document
-            HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml(catalog);
-           
-            //Find HTML node with Inner Text matching college name
-            var links = doc.DocumentNode.Descendants("a").Where(a => a.InnerText == colleges[college])
-               .Select(a => a.Attributes["href"].Value)
-               .ToList();
-
-            return "http://catalog.cpp.edu" + links[1];
-        } 
-
-        public async Task<string> chooseCatalogYear(string year) 
-        {
-            
-            // Post to catalog website to choose catalog year
-            HttpClient client = new HttpClient();
-            string catalogURL = "http://catalog.cpp.edu/index.php";
-
-            //Example choose 2015/16 catalog (value = "8")
-            //input parameter for drop down box in catalog
-            var parameter = new Dictionary<string,string>{
-                { "catalog", catalogYears[year] },
-                { "sel_cat_submit", "GO" }
-            };
-            var encodedContent = new FormUrlEncodedContent(parameter);
-            var response = await client.PostAsync(catalogURL, encodedContent).ConfigureAwait(false);
-            if (response.StatusCode == HttpStatusCode.OK)
+            else
             {
-                // Return response, which is an HTML string
-                var responseContent = await response.Content.ReadAsStringAsync ().ConfigureAwait (false);
-                return responseContent;
+                string majorAndSub = major + "/" + subplan;
+                return years[year][majorAndSub];
             }
-
-            return "FAIL";
-
         }
     }
 }
