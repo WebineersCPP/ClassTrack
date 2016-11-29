@@ -79,9 +79,11 @@
             } else {
                 var cs = {
                     year: parseInt(vm.selectedYear),
-                    major: vm.selectedMajor.title,
-                    subplan: vm.selectedSubplan.title
+                    major: vm.selectedMajor.title                    
                 };
+                if (vm.selectedSubplan) {
+                    cs.subplan = vm.selectedSubplan.title
+                }
 
                 $http.post("/api/curriculum-sheet", cs)
                 .then(function (response) {
