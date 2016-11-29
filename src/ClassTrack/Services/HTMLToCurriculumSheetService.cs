@@ -133,6 +133,8 @@ namespace ClassTrack.Services
                     currentModule = new Module();
                     currentModule.Title = node.InnerText;
 
+
+
                     String unitStr = Regex.Match(node.InnerText, @"\d+").Value;
                     int unitInt;
                     Int32.TryParse(unitStr, out unitInt);
@@ -277,15 +279,21 @@ namespace ClassTrack.Services
                 }
             }
 
+            //for(Module m : tempModules)
+
             // Add GE Module
             GETGEModule getGE = new GETGEModule();
-            tempModules.Push(getGE.ge);
+            Module realGE = getGE.ge;
+            tempModules.Push(realGE);
 
 
             // Reverse temporary stack data structure
             while (tempModules.Count != 0)
             {
-                modules.Push(tempModules.Pop());
+                if(tempModules.Peek().Title.Contains("General Education Requirements") && tempModules.Peek() != realGE)
+                    tempModules.Pop();
+                else
+                    modules.Push(tempModules.Pop());
             }
 
             modulesList = modules.ToList();
