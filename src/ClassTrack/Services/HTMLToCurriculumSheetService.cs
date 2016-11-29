@@ -22,6 +22,8 @@ namespace ClassTrack.Services
         List<Item> courseList;
         bool listOpen = false;
 
+        int numID = 0;
+
         public string catalogLink { get; set; }
         //public IEnumerable<HtmlNode> loadedNodes { get; set; }
 
@@ -186,6 +188,7 @@ namespace ClassTrack.Services
 
                     Item course = new Item();
                     course.IsCourse = true;
+                    course.NumId = numID++;
 
                     // Markers to retrieve course title & course number in Course text 
                     int titleStartIndex = 0;
@@ -247,6 +250,7 @@ namespace ClassTrack.Services
 
                     Item course = new Item();
                     course.IsCourse = false;
+                    course.NumId = numID++;
 
                     course.Title = node.InnerText.Trim();
                     if (course.Title != "&#160;")
@@ -268,6 +272,7 @@ namespace ClassTrack.Services
 
                             Item course = new Item();
                             course.IsCourse = false;
+                            course.NumId = numID++;
 
                             course.Title = node.InnerText.Trim();
 
