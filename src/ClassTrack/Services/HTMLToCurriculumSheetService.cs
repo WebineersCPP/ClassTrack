@@ -246,9 +246,9 @@ namespace ClassTrack.Services
                     Item course = new Item();
                     course.IsCourse = false;
 
-                    course.Title = node.InnerText;
-
-                    courseList.Add(course);
+                    course.Title = node.InnerText.Trim();
+                    if (course.Title != "&#160;")
+                        courseList.Add(course);
 
                 }
                 else //if (node.Name == "ul" && node.InnerHtml.Contains("<strong>") == false)
@@ -269,7 +269,8 @@ namespace ClassTrack.Services
 
                             course.Title = node.InnerText.Trim();
 
-                            courseList.Add(course);
+                            if(course.Title != "&#160;")
+                                courseList.Add(course);
                             break;
                         }
                     }
