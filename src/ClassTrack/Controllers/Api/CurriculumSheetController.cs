@@ -22,9 +22,9 @@ namespace ClassTrack.Controllers.Api
         }
 
         [HttpGet]
-        public IActionResult GetCurriculumSheets()
+        public IActionResult GetAllActiveCurriculumSheets()
         {
-            var results = _repository.GetAllCurriculumSheets(this.User.Identity.Name);
+            var results = _repository.GetAllActiveCurriculumSheets(this.User.Identity.Name);
             return Ok(results);
         }
 
@@ -39,6 +39,20 @@ namespace ClassTrack.Controllers.Api
             catch (Exception ex)
             {
                 return BadRequest($"Error while retrieving curriculum sheets for {this.User.Identity.Name}");
+            }
+        }
+
+        [HttpPost("delete/{id}")]
+        public IActionResult DeleteCurriculumSheet(int id)
+        {
+            try
+            {
+                _repository.DeleteCurriculumSheet(this.User.Identity.Name, id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while deleting curriculum sheet for {this.User.Identity.Name}");
             }
         }
 

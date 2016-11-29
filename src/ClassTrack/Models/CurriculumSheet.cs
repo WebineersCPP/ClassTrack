@@ -14,6 +14,7 @@ namespace ClassTrack.Models
         public String Major { get; set; }
         public String Subplan { get; set; }
         public int MinUnitsReq { get; set; }
+        public bool IsActive { get; set; }
                 
         public ICollection<Module> Modules { get; set; }
     }

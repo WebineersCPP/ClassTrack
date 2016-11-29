@@ -11,7 +11,7 @@ namespace ClassTrack.Repositories
     public interface IClassTrackRepository
     {
         /// <summary>
-        /// Retrieves a particular curriculum sheet from a given user
+        /// Retrieves a particular curriculum sheet from a given user. Active only.
         /// </summary>
         /// <param name="username">The owner of the curriculum sheet</param>
         /// <param name="id">The id of the specific curriculum sheet</param>
@@ -19,11 +19,11 @@ namespace ClassTrack.Repositories
         CurriculumSheet GetCurriculumSheet(string username, int id);
 
         /// <summary>
-        /// Retrieves all the curriculum sheets pertaining to a particular user
+        /// Retrieves all active curriculum sheets pertaining to a particular user
         /// </summary>
         /// <param name="username">The owner of the curriculum sheets to be retrieved</param>
         /// <returns></returns>
-        IEnumerable<CurriculumSheet> GetAllCurriculumSheets(string username);
+        IEnumerable<CurriculumSheet> GetAllActiveCurriculumSheets(string username);
 
         /// <summary>
         /// Adds a new user curriculum sheet to the database
@@ -31,6 +31,13 @@ namespace ClassTrack.Repositories
         /// <param name="cs">The curriculum sheet to be added</param>
         /// <returns></returns>
         CurriculumSheet PostCurriculumSheet(CurriculumSheet cs);
+
+        /// <summary>
+        /// Makes a given curriculum sheet inactive
+        /// </summary>
+        /// <param name="username">The owner of the curriculum sheet</param>
+        /// <param name="id">The id of the specific curriculum sheet</param>
+        void DeleteCurriculumSheet(string username, int id);
 
         /// <summary>
         /// Updates a specific item's highlight color

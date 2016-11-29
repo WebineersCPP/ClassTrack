@@ -6,7 +6,7 @@
     angular.module("app-home")
         .controller("csController", csController);
 
-    function csController($routeParams, $http) {
+    function csController($routeParams, $http, $window) {
         var vm = this;
         vm.loading = true;
         var id = $routeParams.id;
@@ -86,6 +86,23 @@
                 .finally(function () {
                     item.loading = false;
                 });           
+        };
+
+        // Delete curriculum sheet
+        vm.delete = function () {
+            // alert user to confirm deletion
+            if (window.confirm("Do you really want to delete this curriculum sheet?")) {
+                vm.loading = true;
+                $http.post("/api/curriculum-sheet/delete/" + id)
+                .then(function () {
+                    $window.location.href = "#/";
+                }, function (error) {
+                    vm.errorMessage = error.data;
+                })
+                .finally(function () {
+                    vm.loading = false;
+                });
+            } 
         };
 
         // Activate highlight button

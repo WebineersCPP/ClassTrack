@@ -22,6 +22,10 @@
 
 
 /* csView.html */
+#csView {
+    padding-bottom: 20px;
+}
+
 .curriculum-sheet-detail {
     margin: 40px;
     padding: 20px;

@@ -24,7 +24,7 @@ namespace ClassTrack.Repositories
             if (username != null)   
             {
                 CurriculumSheet sheet = _context.CurriculumSheets
-                           .Where(cs => cs.UserName == username && cs.Id == id)
+                           .Where(cs => cs.UserName == username && cs.Id == id && cs.IsActive == true)
                            .Include(cs => cs.Modules)
                            .ThenInclude(m => m.Items)
                            .FirstOrDefault();
@@ -40,11 +40,27 @@ namespace ClassTrack.Repositories
             return null;
         }
 
-        public IEnumerable<CurriculumSheet> GetAllCurriculumSheets(string username)
+        public IEnumerable<CurriculumSheet> GetAllActiveCurriculumSheets(string username)
         {
             return _context.CurriculumSheets
-                           .Where(cs => cs.UserName == username)
+                           .Where(cs => cs.UserName == username && cs.IsActive == true)
                            .ToList();
+        }
+
+        public void DeleteCurriculumSheet(string username, int id)
+        {
+            CurriculumSheet csToDelete = _context.CurriculumSheets
+                          .Where(cs => cs.UserName == username && cs.Id == id)
+                          .FirstOrDefault();
+
+            if (csToDelete != null)
+            {
+                if (csToDelete.IsActive != false)
+                {
+                    csToDelete.IsActive = false;
+                    _context.SaveChanges();
+                }
+            }
         }
 
         public CurriculumSheet PostCurriculumSheet(CurriculumSheet cs)
