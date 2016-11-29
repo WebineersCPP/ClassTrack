@@ -13,14 +13,14 @@ namespace ClassTrack.Services
     {
         List<Item> courseItemList = new List<Item>();
 
-        static Stack<Module> tempModules = new Stack<Module>();
-        static Stack<Module> modules = new Stack<Module>();
+        Stack<Module> tempModules = new Stack<Module>();
+        Stack<Module> modules = new Stack<Module>();
 
         List<Module> modulesList = new List<Module>();
         CurriculumSheet cs = new CurriculumSheet();
 
         List<Item> courseList;
-        static bool listOpen = false;
+        bool listOpen = false;
 
         public string catalogLink { get; set; }
         //public IEnumerable<HtmlNode> loadedNodes { get; set; }
@@ -275,6 +275,11 @@ namespace ClassTrack.Services
                     }
                 }
             }
+
+            // Add GE Module
+            GETGEModule getGE = new GETGEModule();
+            tempModules.Push(getGE.ge);
+
 
             // Reverse temporary stack data structure
             while (tempModules.Count != 0)

@@ -12,6 +12,6 @@
     "angular-material": "~1.1.1"
   },
   "resolutions": {
-    "angular": "1.5.9-build.5105+sha.d80cdeb"
+    "angular": "1.5.9"
   }
 }
