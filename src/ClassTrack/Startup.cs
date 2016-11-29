@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using ClassTrack.Services;
 using ClassTrack.ViewModels;
 using ClassTrack.Repositories;
 using ClassTrack.Models;
@@ -42,8 +41,6 @@ namespace ClassTrack
             services.AddTransient<ClassTrackContextSeedData>();  
             
             services.AddScoped<IClassTrackRepository, ClassTrackRepository>();
-
-            services.AddTransient<HTMLToCurriculumSheetService>();
 
             services.AddIdentity<ClassTrackUser, IdentityRole>(config =>
             {

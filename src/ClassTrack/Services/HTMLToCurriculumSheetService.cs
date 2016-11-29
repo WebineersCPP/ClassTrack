@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace ClassTrack.Services
 {
-    public class HTMLToCurriculumSheetService
+    public class HTMLToCurriculumSheetService : IHTMLToCurriculumSheetService
     {
         List<Item> courseItemList = new List<Item>();
 

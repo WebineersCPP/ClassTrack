@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace ClassTrack.Services
 {
-    public class FetchCatalogURLService
+    public class FetchCatalogURLService : IFetchCatalogURLService
     {
         private static Dictionary<string, string> Year_2012 = new Dictionary<string, string>
         {
@@ -497,7 +497,7 @@ namespace ClassTrack.Services
             { 2016, Year_2016}
 
         };
-        public async Task<string> GetMajorPlanUrl(int year, string major, string subplan = null)
+        public string GetMajorPlanUrl(int year, string major, string subplan = null)
         {
             if(subplan == null)
             {
