@@ -7,6 +7,7 @@ namespace ClassTrack.Models
     public class Item
     {
         public int Id { get; set; }
+        public int NumId { get; set; }
         public bool IsCourse { get; set; }
         public string Title { get; set; }
         public string Number { get; set; }

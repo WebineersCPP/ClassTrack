@@ -29,10 +29,10 @@ namespace ClassTrack.Repositories
                            .ThenInclude(m => m.Items)
                            .FirstOrDefault();
 
-                // Sort items by course number
+                // Sort items by numId
                 foreach (var m in sheet.Modules)
                 {
-                    List<Item> list = m.Items.OrderBy(i => i.Number).ToList();
+                    List<Item> list = m.Items.OrderBy(i => i.NumId).ToList();
                     m.Items = list;
                 }
                 return sheet;
