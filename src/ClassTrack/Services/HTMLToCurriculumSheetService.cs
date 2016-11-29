@@ -164,7 +164,7 @@ namespace ClassTrack.Services
                 {
                     if (i == node.LinePosition && tempModules.Count != 0)
                     {
-                        tempModules.Peek().Description = node.InnerText;
+                        tempModules.Peek().Description = node.InnerText.Replace("&#160;", " ");
                         break;
                     }
                 }
