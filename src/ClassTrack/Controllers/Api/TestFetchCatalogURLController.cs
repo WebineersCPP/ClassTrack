@@ -19,7 +19,7 @@ namespace ClassTrack.Controllers.Api
             //string url = "http://catalog.cpp.edu/preview_program.php?catoid=4&poid=983&returnto=751";
             //<h3 id="ent1592">Accounting </h3>
 
-            string message = await testService.GetMajorPlanUrl(2013,"Biology","Botany");//testService.chooseCatalogYear("2013");//
+            string message = testService.GetMajorPlanUrl(2013,"Spanish","");//testService.chooseCatalogYear("2013");//
             return Ok(message);
         }
     }

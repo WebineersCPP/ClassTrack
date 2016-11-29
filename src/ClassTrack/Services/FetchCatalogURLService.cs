@@ -499,7 +499,7 @@ namespace ClassTrack.Services
         };
         public string GetMajorPlanUrl(int year, string major, string subplan = null)
         {
-            if(subplan == null)
+            if(subplan == null || subplan.Equals(""))
             {
                 return years[year][major];
             }
