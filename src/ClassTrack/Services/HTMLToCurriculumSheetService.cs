@@ -237,7 +237,7 @@ namespace ClassTrack.Services
 
                     courseList.Add(course);
                 }
-                else if (node.GetAttributeValue("class", "").StartsWith("acalog-adhoc"))
+                else if (node.GetAttributeValue("class", "").StartsWith("acalog-adhoc") && tempModules.Count != 0)
                 {
                     if (listOpen == false)
                     {
@@ -253,14 +253,14 @@ namespace ClassTrack.Services
                         courseList.Add(course);
 
                 }
-                else //if (node.Name == "ul" && node.InnerHtml.Contains("<strong>") == false)
+                else if (tempModules.Count != 0)//if (node.Name == "ul" && node.InnerHtml.Contains("<strong>") == false)
                 {
                     // Get description for module
                     foreach (int i in nonCourseItemLocation)
                     {
                         if (i == node.LinePosition)
                         {
-                            if (listOpen == false)
+                            if (listOpen == false && tempModules.Count != 0)
                             {
                                 courseList = new List<Item>();
                                 listOpen = true;
