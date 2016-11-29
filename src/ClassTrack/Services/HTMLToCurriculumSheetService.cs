@@ -300,6 +300,7 @@ namespace ClassTrack.Services
             cs.Modules = modulesList;
 
             // Return curriculum sheet
+            cs.IsActive = true;
             return cs;
         }
 
