@@ -30,5 +30,10 @@ namespace ClassTrack.Controllers.Web
         {
             return View();
         }
+
+        public IActionResult Feedback()
+        {
+            return View();
+        }
     }
 }

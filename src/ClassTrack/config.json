@@ -1,7 +1,6 @@
 {
   "ConnectionStrings": {
     //"ClassTrackContextConnection": "Server=localhost\\SQLEXPRESS;Database=master;Trusted_Connection=True;MultipleActiveResultSets=true;",
-    //"ClassTrackContextConnection": "Server=classtrack-db.database.windows.net;Database=ClassTrackDb;Trusted_Connection=true;MultipleActiveResultSets=true;",
     //"ClassTrackContextConnection": "Server=(localdb)\\MSSQLLocalDb;Database=ClassTrackDb;Trusted_Connection=true;MultipleActiveResultSets=true;"
     "ClassTrackContextConnection": "Server=tcp:classtrack-db.database.windows.net,1433;Initial Catalog=ClassTrack_db;Persist Security Info=False;User ID=istodart;Password=Classtrack16;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
   }
